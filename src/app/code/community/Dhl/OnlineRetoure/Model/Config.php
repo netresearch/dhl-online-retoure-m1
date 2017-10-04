@@ -66,6 +66,7 @@ class Dhl_OnlineRetoure_Model_Config
         if (!$portalId) {
             return '';
         }
+
         return $portalId;
     }
 
@@ -81,6 +82,7 @@ class Dhl_OnlineRetoure_Model_Config
         if (!$user) {
             return '';
         }
+
         return $user;
     }
 
@@ -96,6 +98,7 @@ class Dhl_OnlineRetoure_Model_Config
         if (!$password) {
             return '';
         }
+
         return $password;
     }
 
@@ -111,6 +114,7 @@ class Dhl_OnlineRetoure_Model_Config
         if (!$page) {
             return '';
         }
+
         return $page;
     }
 
@@ -155,6 +159,7 @@ class Dhl_OnlineRetoure_Model_Config
         if (!$wsdl) {
             return '';
         }
+
         return $wsdl;
     }
 
@@ -168,29 +173,36 @@ class Dhl_OnlineRetoure_Model_Config
     }
 
     /**
-     * Get allowed shipping methods
+     * Get allowed shipping methods with or without DHL Versenden functionalities
      *
      * @return array
      */
     public function getAllowedShippingMethods()
     {
-        return explode(",", Mage::getStoreConfig('shipping/dhlonlineretoure/allowed_shipping_methods'));
+        $originalMethods = Mage::getStoreConfig('shipping/dhlonlineretoure/allowed_shipping_methods');
+        $originalMethods = explode(",", $originalMethods);
+
+        $dhlMethods = array_map(
+            function ($shippingMethod) {
+                // calculate DHL Versenden counterpart to original shipping method
+                return preg_replace('/^[^_]+_(.+)$/', 'dhlversenden_$1', $shippingMethod);
+            },
+            $originalMethods
+        );
+
+        $allowedShippingMethods = array_merge($originalMethods, $dhlMethods);
+        return $allowedShippingMethods;
     }
 
     /**
      * Check if shipping method is allowed
      *
-     * @param  string $shippingCode
+     * @param  string $shippingMethod
      * @return boolean
      */
-    public function isAllowedShippingMethod($shippingCode)
+    public function isAllowedShippingMethod($shippingMethod)
     {
-        if (in_array(
-            $shippingCode,
-            $this->getAllowedShippingMethods())) {
-            return true;
-        } else {
-            return false;
-        }
+        $allowedShippingMethods = $this->getAllowedShippingMethods();
+        return in_array($shippingMethod, $allowedShippingMethods);
     }
 }
