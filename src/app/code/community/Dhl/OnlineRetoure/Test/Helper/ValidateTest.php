@@ -58,29 +58,23 @@ class Dhl_OnlineRetoure_Test_Helper_ValidateTest extends EcomDev_PHPUnit_Test_Ca
      */
     public function testIsOrderExisting()
     {
+        $helper = $this->getValidateHelper();
+
         //Order exists by ID - True
-        $this->assertTrue($this->getValidateHelper()->isOrderIdExisting(11));
+        $this->assertTrue($helper->isOrderIdExisting(11));
 
         //Order exists by object - True
-        $this->assertTrue(
-            $this->getValidateHelper()->isOrderExisting(
-                Mage::getModel("sales/order")->load(11)
-            )
-        );
+        /** @var Mage_Sales_Model_Order $order */
+        $order = Mage::getModel("sales/order")->load(11);
+        $this->assertTrue($helper->isOrderExisting($order));
 
         //Order exists by ID - False (ID is not existing)
-        $this->assertFalse($this->getValidateHelper()->isOrderIdExisting(123456789));
+        $orderId = 123456789;
+        $this->assertFalse($helper->isOrderIdExisting($orderId));
 
         //Order exists by object - False (ID is not existing)
-        $this->assertFalse(
-            $this->getValidateHelper()->isOrderExisting(
-                Mage::getModel("sales/order")->load(123456789)
-            )
-        );
-
-        //No parameters were given -> No Order!
-        $this->setExpectedException('Exception');
-        $this->assertFalse($this->getValidateHelper()->isOrderExisting());
+        $order = Mage::getModel("sales/order")->load(123456789);
+        $this->assertFalse($helper->isOrderExisting($order));
     }
 
     /**

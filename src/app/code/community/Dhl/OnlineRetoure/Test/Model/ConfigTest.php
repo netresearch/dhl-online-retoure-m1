@@ -134,25 +134,34 @@ class Dhl_OnlineRetoure_Test_Model_ConfigTest extends EcomDev_PHPUnit_Test_Case
 
     public function testGetAllowedShippingMethods()
     {
-        $mockedShippingMethods = "dhlversenden_flatrate,flatrate_flatrate";
-        $this->store->setConfig('shipping/dhlonlineretoure/allowed_shipping_methods', $mockedShippingMethods);
+        $allowedMethods = 'flatrate_flatrate,tablerate_bestway';
+        $this->store->setConfig('shipping/dhlonlineretoure/allowed_shipping_methods', $allowedMethods);
 
-        $allowedShippingMethods = $this->config->getAllowedShippingMethods();
-        $this->assertInternalType('array', $allowedShippingMethods);
-        $this->assertNotEmpty($allowedShippingMethods);
-        $this->assertEquals(
-            explode(",", $mockedShippingMethods),
-            $allowedShippingMethods
-        );
+        // add same methods with DHL carrier
+        $allowedMethods = explode(',', $allowedMethods);
+        $allowedMethods[]= 'dhlversenden_flatrate';
+        $allowedMethods[]= 'dhlversenden_bestway';
+
+        $configuredMethods = $this->config->getAllowedShippingMethods();
+        $this->assertInternalType('array', $configuredMethods);
+        $this->assertNotEmpty($configuredMethods);
+        $this->assertEquals($allowedMethods, $configuredMethods);
     }
 
     public function testIsAllowedShippingMethod()
     {
-        $theGood = "dhlversenden_flatrate";
-        $theBad  = "flatrate_flatrate";
-        $this->store->setConfig('shipping/dhlonlineretoure/allowed_shipping_methods', $theGood);
+        $notAllowed = 'pickup_pickup';
+        $allowedMethods = 'flatrate_flatrate,tablerate_bestway';
+        $this->store->setConfig('shipping/dhlonlineretoure/allowed_shipping_methods', $allowedMethods);
 
-        $this->assertTrue($this->config->isAllowedShippingMethod($theGood));
-        $this->assertFalse($this->config->isAllowedShippingMethod($theBad));
+        // add same methods with DHL carrier
+        $allowedMethods = explode(',', $allowedMethods);
+        $allowedMethods[]= 'dhlversenden_flatrate';
+        $allowedMethods[]= 'dhlversenden_bestway';
+
+        $this->assertFalse($this->config->isAllowedShippingMethod($notAllowed));
+        foreach ($allowedMethods as $allowedMethod) {
+            $this->assertTrue($this->config->isAllowedShippingMethod($allowedMethod));
+        }
     }
 }
