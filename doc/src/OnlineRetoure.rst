@@ -112,7 +112,7 @@ muss folgender Code-Block in die Transaktions-E-Mails von Magento eingebaut werd
 
  {{block type='dhlonlineretoure/sales_order_email_retoure'
      area='frontend'
-     template='dhlonlineretoure/sales/order/email/retoure.phtml'
+     template='dhl_onlineretoure/sales/order/email/retoure.phtml'
      order=$order}}
 
 Eine geeignete Position wäre unter den Versand-Informationen, welche in den Templates der Transaktions-E-Mails mittels
@@ -136,16 +136,16 @@ Geeignet und getestet wurde die Integration in folgende Transaktions-E-Mails:
 Der Code-Block funktioniert jedoch grundsätzlich in allen Transaktions-E-Mails, bei denen die Bestellung mittels der Funktion getOrder()
 bzw. als Variable $order vorliegt.
 
-Das Template "dhlonlineretoure/sales/order/email/retoure.phtml" befindet sich im Standard-Pfad base/default und kann regulär in Ihrem
+Das Template "dhl_onlineretoure/sales/order/email/retoure.phtml" befindet sich im Standard-Pfad base/default und kann regulär in Ihrem
 Custom Template überschrieben werden. Alternativ können Sie im Code-Block auch einen komplett anderen Template-Pfad angeben.
 
 Retouren Link
 -------------
 
-Wenn Sie nur den Link zum Retouren-Formular einbinden möchten, können Sie anstatt des Templates "dhlonlineretoure/sales/order/email/retoure.phtml"
-das Template "dhlonlineretoure/sales/order/email/retoure_link.phtml" verwenden.
+Wenn Sie nur den Link zum Retouren-Formular einbinden möchten, können Sie anstatt des Templates "dhl_onlineretoure/sales/order/email/retoure.phtml"
+das Template "dhl_onlineretoure/sales/order/email/retoure_link.phtml" verwenden.
 
- <a href="{{block type='dhlonlineretoure/sales_order_email_retoure' area='frontend'  template='dhlonlineretoure/sales/order/email/retoure_link.phtml' order=$order}}">Individueller Link zur Online Retoure</a>
+ <a href="{{block type='dhlonlineretoure/sales_order_email_retoure' area='frontend'  template='dhl_onlineretoure/sales/order/email/retoure_link.phtml' order=$order}}">Individueller Link zur Online Retoure</a>
 
 .. figure:: onlineretoure/screenshots/new_shipment_email_link_source.png
    :width: 12cm
