@@ -7,6 +7,19 @@
 		"margin-right":"2cm"
 	},
 	"styles": [
+		["bodytext", {
+            "alignment":"TA_LEFT"
+        }],
+		["code", {
+            "fontSize":"8"
+        }],
+		["bullet-list", {
+            "spaceAfter": 10
+        }],
+		["image", {
+            "spaceBefore": 10,
+            "spaceAfter": 15
+        }],
 		["footertable", {
 			"commands": [
 				[ "VALIGN", [ 0, 0 ], [ -1, -1 ], "TOP" ]
