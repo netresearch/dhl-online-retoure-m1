@@ -25,13 +25,13 @@ DHL Online Retoure für Magento® 1
 Die Extension *DHL Online Retoure* für Magento® 1 ermöglicht es Kunden im Shop bei Bedarf Retouren-Label für
 Bestellungen zu erzeugen, um diese dann selbst auszudrucken.
 
-Diese Anleitung erklärt die **Konfiguration und Nutzung** der Extension.
+Diese Anleitung erklärt die **Installation, Konfiguration und Nutzung** der Extension.
 
 .. raw:: pdf
 
    PageBreak
 
-.. contents:: Konfiguration und Nutzung
+.. contents:: Installation, Konfiguration und Nutzung
 
 .. raw:: pdf
 
@@ -126,7 +126,7 @@ Folgende **Einstellungen** können vorgenommen werden:
    * - WSDL
      - Die URL zum DHL Retouren-Gateway. Diese sollte standardmäßig nicht geändert werden.
    * - Logging aktiviert
-     - Aktivieren, damit Log-Einträge für ausgehende und eingehende Requests in der Datei "var/log/dhl_retoure.log"
+     - Aktivieren, damit Log-Einträge für ausgehende und eingehende Requests in der Datei *var/log/dhl_retoure.log*
        geloggt werden. Dies ist hilfreich, um Probleme schneller identifizieren und lösen zu können. **Empfehlung:
        nur zur Fehlersuche aktivieren.**
 
@@ -171,12 +171,7 @@ muss folgender Code in die E-Mail-Templates von Magento® eingebunden werden:
     template='dhlonlineretoure/sales/order/email/retoure.phtml'
     order=$order}}
 
-Eine geeignete Position wäre z.B. unter den Versand-Informationen, welche in den Templates der Transaktions-E-Mails
-diesen Platzhalter haben:
-
-::
-
-  {{var order.getShippingDescription()}}
+Eine geeignete Position wäre z.B. unter den Versand-Informationen.
 
 **Beispiel:**
 
@@ -217,8 +212,8 @@ das Template *dhlonlineretoure/sales/order/email/retoure_link.phtml* verwenden.
 ::
 
   <a href="{{block type='dhlonlineretoure/sales_order_email_retoure'
-  area='frontend' template='dhlonlineretoure/sales/order/email/retoure_link.phtml'
-  order=$order}}">Individueller Link zur Online Retoure</a>
+    area='frontend' template='dhlonlineretoure/sales/order/email/retoure_link.phtml'
+    order=$order}}">Individueller Link zur Online Retoure</a>
 
 **Beispiel:**
 
@@ -264,7 +259,7 @@ Für die Erzeugung eines Retouren-Labels im Kundenkonto sind folgende Schritte e
 .. image:: images/de/createlabel-04-return_label.png
    :scale: 220 %
 
-Sobald ein Retouren-Label erzeugt wurde, erscheint einen Hinweis in den Bestellkommentaren.
+Sobald ein Retouren-Label erzeugt wurde, erscheint im Magento® Adminpanel ein Hinweis in den Bestellkommentaren.
 
 .. image:: images/de/createlabel-05-comments_history.png
    :scale: 200 %
@@ -299,7 +294,7 @@ Siehe auch `Integration in Transaktions-E-Mails`_.
 Deinstallation
 ==============
 
-Zur Deinstallation befolgen Sie bitte die Anweisungen in der Datei *README.md*, die Sie im
+Zur Deinstallation befolgen Sie bitte die Anweisungen in der Datei *readme.md*, die Sie im
 Modulpackage finden. Achten Sie darauf, alle Anweisungen exakt zu befolgen und keine
 Schritte zu überspringen.
 
@@ -311,3 +306,8 @@ Support-Portal (FAQ): http://dhl.support.netresearch.de/
 
 Sollte sich das Problem damit nicht beheben lassen, können Sie das Supportteam über das o.g.
 Portal oder per Mail unter dhl.support@netresearch.de kontaktieren.
+
+.. admonition:: Hinweis zu Zugangsdaten
+
+   Falls Ihnen die Zugangsdaten, Portal ID usw. nicht bekannt sind, wenden Sie sich **direkt an Ihren
+   Ansprechpartner bei DHL** mit der Bitte um Freischaltung für *Online Retoure Variante 3*.

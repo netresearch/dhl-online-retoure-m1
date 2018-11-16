@@ -18,197 +18,291 @@
 
 .. sectnum::
 
-======================================================================================================
-DHL Online Retoure - Magento Extension zur Erstellung der Retouren-Labels durch den Kunden im Frontend
-======================================================================================================
+=========================================
+DHL Online Returns for Magento® 1
+=========================================
+
+The extension *DHL Online Returns* for Magento® 1 allows customers to create return labels in the shop and
+print these themselves.
+
+This documentation covers the **installation, configuration, and usage** of the extension.
 
 .. raw:: pdf
 
    PageBreak
 
-.. contents:: DHL Online Retoure - Endbenutzer-Dokumentation
+.. contents:: Installation, configuration, and usage
 
 .. raw:: pdf
 
    PageBreak
 
 
-Voraussetzungen
+Requirements
 ===============
 
-Folgende Voraussetzungen müssen für den reibungslosen Betrieb des DHL-OnlineRetoure-Moduls erfüllt sein.
+The following requirements must be met for a smooth operation of the extension.
 
-Magento
--------
+Magento®
+--------
 
-Folgende Magento-Versionen werden vom Modul unterstützt bzw. vorausgesetzt:
+The following Magento® versions are supported:
 
-- Community-Edition 1.7, 1.8, 1.9
-- Enterprise-Edition 1.12, 1.13, 1.14
+- Community-Edition (Open Source) 1.7, 1.8, 1.9
+- Enterprise-Edition (Commerce) 1.12, 1.13, 1.14
 
 Server
 ------
 
-- Auf dem Server muss PHP in der Version 5.5 oder höher installiert sein.
-- Die SOAP-Extension muss auf dem Webserver installiert und aktiviert sein.
+- PHP 5.5 or higher must be installed on the server.
+- The PHP SOAP extension must be installed and enabled.
 
-Konfiguration
+Hints for using the module
+========================================
+
+Language support
+-------------------
+
+The module supports the locales *en_US* and *de_DE*. The translations are stored
+in CSV translation files and can therefore be modified by third-party modules.
+
+Data protection
+---------------
+
+The module transmits personal data to DHL which are needed to process the shipment (names,
+addresses, etc.).
+
+The merchant needs the agreement from the customer to process the data, e.g. via the shop's
+terms and conditions and / or an agreement in the checkout (Magento® Checkout Agreements).
+
+
+Installation
+============
+
+Install the module according to the instructions from the file *readme.md* which you can
+find in the module package. It is very important to follow all steps exactly as shown there.
+Do not skip any steps.
+
+The file *readme.md* also describes the database changes which are made during installation.
+
+Configuration
 =============
 
-.. figure:: onlineretoure/screenshots/backend_configuration.png
-   :width: 12cm
+The **configuration** for the extension can be found here:
 
-   Magento Backend - Konfigurationsbereich
+::
 
-Der Konfigurationsbereich der Extension ist unter System -> Konfiguration -> Sales -> Versandeinstellungen -> Online Retoure erreichbar.
+  Configuration → Sales → Shipping settings → Online Return
 
-.. list-table:: DHL OnlineRetoure Konfigurationsbereich
+.. image:: images/en/backend_configuration.png
+   :scale: 180 %
+
+You can configure these **settings**:
+
+.. list-table::
    :widths: 15 30
    :header-rows: 1
 
-   * - Konfiguration
-     - Kommentar
-   * - Aktiviert
-     - Sofern deaktiviert, wird weder der Retourenlink unter "Mein Konto" angezeigt,
-       noch der Retouren-Block in den Transaktions-E-Mails eingefügt.
-   * - Retourenportal-Namen
-     - Für jedes Land aus dem Retouren akzeptiert werden sollen, ist der Name des Retouren-Portals anzugeben.
-       Sie finden den jeweiligen Retourenportal-Namen (deliveryName) in der Aufschalt-E-Mail zur Retoure Online von DHL.
+   * - Name
+     - Description
+   * - Enabled
+     - Enable this to show the return link in "My account" and in the transactional emails (if configured).
+   * - Delivery names
+     - For every **country** from which returns are accepted, you need to set the **delivery name** (return portal).
+       The delivery names can be found in the registration email from DHL.
    * - Portal ID
-     - Ihre Portal ID im DHL Retourenportal. Sie finden Ihre Portal ID in der Aufschalt-E-Mail.
-   * - Benutzer
-     - Ihr Benutzername im DHL Retourenportal. Sie finden Ihren Benutzernamen in der Aufschalt-E-Mail.
-   * - Passwort
-     - Ihr Passwort im DHL Retourenportal. Den Link zur Erstellung Ihres Passworts finden Sie in der Aufschalt-E-Mail.
-   * - CMS-Seite Widerrufsbelehrung
-     - Ein Link zu dieser CMS-Seite wird auf der Retouren-Seite angezeigt.
-   * - Erlaubte Versandarten
-     - Die Retouren-Funktion ist nur für Bestellungen, die mit den hier ausgewählten Versandarten getätigt wurden, aktiv.
+     - Your Portal ID for the DHL Return Portal. You can find the ID in the registration email from DHL.
+   * - User
+     - Your username for the DHL Return Portal.  You can find the username in the registration email from DHL.
+   * - Password
+     - Your password for the DHL Return Portal. You must create this password yourself. The link to create it can be
+       found in the registration email from DHL.
+   * - CMS revocation page
+     - A link to this CMS page will be displayed to the customer when creating a return label.
+   * - Allowed shipping methods
+     - Select which shipping methods should be allowed for returns.
    * - WSDL
-     - Die URL zum Retouren-Gateway. Diese sollte standardmäßig nicht geändert werden.
-   * - Logging aktiviert
-     - Sofern aktiv, erstellt das Modul Log-Einträge für ausgehende und eingehende Requests in der Datei "var/log/dhl_retoure.log".
-       Diese Datei ist hilfreich im Support, um etwaige Probleme schneller identifizieren und lösen zu können.
+     - The URL to the DHL Return Gateway. This should normally not be changed.
+   * - Logging enabled
+     - Enable this to log outgoing and incoming requests to the file *var/log/dhl_retoure.log*. This is helpful to
+       identify and resolve problems. **Recommendation:** enable this only during troubleshooting.
+
+.. admonition:: About login data
+
+   If you don't know your login data, Portal ID, etc. then please **contact DHL directly** and ask to be registered for
+   *Online Returns Variant 3*.
+
+   See also http://dhl.support.netresearch.de/support/solutions/articles/12000023185
 
 .. raw:: pdf
 
    PageBreak
 
-Integration in Transaktions-E-Mails
-===================================
+Integration into transactional emails
+=========================================
 
-Die Transaktions-E-Mails von Magento können unter "System"->"Transaktions-E-Mails" angepasst und bearbeitet werden.
+You can add a link to the transactional emails which allows the customer to create a return label directly without
+logging in to the shop.
 
-.. figure:: onlineretoure/screenshots/transaction_emails.png
-   :width: 12cm
+Magento®'s transactional emails can be configured in the admin panel in this section:
 
-   Magento Backend - Transaktions-E-Mails
+::
 
-Retouren Block
+  System → Transactional emails
+
+
+Return block
 --------------
 
-Um den Info-Block zur Erstellung der Retouren-Labels in die Transaktions-E-Mails einzubinden,
-muss folgender Code-Block in die Transaktions-E-Mails von Magento eingebaut werden.
+To add the block for creating return labels to the transactional emails, the following code must be added
+to Magento®'s transactional email templates:
 
- {{block type='dhlonlineretoure/sales_order_email_retoure'
-     area='frontend'
-     template='dhlonlineretoure/sales/order/email/retoure.phtml'
-     order=$order}}
+::
 
-Eine geeignete Position wäre unter den Versand-Informationen, welche in den Templates der Transaktions-E-Mails mittels
-des Platzhalters {{var order.getShippingDescription()}} eingebunden werden.
+  {{block type='dhlonlineretoure/sales_order_email_retoure'
+    area='frontend'
+    template='dhlonlineretoure/sales/order/email/retoure.phtml'
+    order=$order}}
 
-.. figure:: onlineretoure/screenshots/new_shipment_email_block_source.png
-   :width: 14cm
+A suitable position would be below the shipping information.
 
-   Magento Backend - Integration des Online Retoure Blocks in das E-Mail-Template "Neue Sendung"
+**Example:**
 
-.. figure:: onlineretoure/screenshots/new_shipment_email_block.png
-   :width: 14cm
+.. image:: images/en/new_shipment_email_block_source.png
+   :scale: 200 %
 
-   E-Mail - Neue Sendung mit Retouren-Block
+.. raw:: pdf
 
-Geeignet und getestet wurde die Integration in folgende Transaktions-E-Mails:
+   PageBreak
 
-- Neue Sendung
-- Neue Sendung (Gast)
+**Resulting email:**
 
-Der Code-Block funktioniert jedoch grundsätzlich in allen Transaktions-E-Mails, bei denen die Bestellung mittels der Funktion getOrder()
-bzw. als Variable $order vorliegt.
+.. image:: images/en/new_shipment_email_block.png
+   :scale: 240 %
 
-Das Template "dhlonlineretoure/sales/order/email/retoure.phtml" befindet sich im Standard-Pfad base/default und kann regulär in Ihrem
-Custom Template überschrieben werden. Alternativ können Sie im Code-Block auch einen komplett anderen Template-Pfad angeben.
+The integration into these transactional emails has been tested:
 
-Retouren Link
+* New shipment
+* New shipment (guest)
+
+However, the code block works in all transactional emails which have access to the order via the
+function *getOrder()* or the variable *$order*.
+
+The template *dhlonlineretoure/sales/order/email/retoure.phtml* is located in the default path *base/default*
+and can be overwritten by other templates as usual.
+
+Alternatively, you can provide a completely different path, if needed.
+
+.. raw:: pdf
+
+   PageBreak
+
+Return link
 -------------
 
-Wenn Sie nur den Link zum Retouren-Formular einbinden möchten, können Sie anstatt des Templates "dhlonlineretoure/sales/order/email/retoure.phtml"
-das Template "dhlonlineretoure/sales/order/email/retoure_link.phtml" verwenden.
+If you want to only include the link to the return form, you can use the template
+*dhlonlineretoure/sales/order/email/retoure_link.phtml* instead of the template
+*dhlonlineretoure/sales/order/email/retoure.phtml*.
 
- <a href="{{block type='dhlonlineretoure/sales_order_email_retoure' area='frontend'  template='dhlonlineretoure/sales/order/email/retoure_link.phtml' order=$order}}">Individueller Link zur Online Retoure</a>
+::
 
-.. figure:: onlineretoure/screenshots/new_shipment_email_link_source.png
-   :width: 12cm
+  <a href="{{block type='dhlonlineretoure/sales_order_email_retoure'
+    area='frontend' template='dhlonlineretoure/sales/order/email/retoure_link.phtml'
+    order=$order}}">Individueller Link zur Online Retoure</a>
 
-   Magento Backend - Integration des Online Retoure Links in das E-Mail-Template "Neue Sendung"
+**Example:**
 
-.. figure:: onlineretoure/screenshots/new_shipment_email_link.png
-   :width: 14cm
+.. image:: images/en/new_shipment_email_link_source.png
+   :scale: 170 %
 
-   E-Mail - Neue Sendung mit Retouren-Link
+**Resulting email:**
 
-Erzeugen des Retoure-Labels
-===========================
+.. image:: images/en/new_shipment_email_link.png
+   :scale: 220 %
 
-Für die Erzeugung eines Retoure-Labels durch den Kunden sind allgemein folgende
-Schritte erforderlich:
+Workflow
+========
 
-#. Abschnitt *Meine Bestellungen* im Kundenbereich öffnen
-#. Zu retournierende Bestellung öffnen
-#. _`Versandadresse prüfen` und ggf. korrigieren
-#. Labelerzeugung initiieren
+Creating return labels from the customer account
+----------------------------------------------------
 
-Zu beachten ist, dass der Link zur Erzeugung einer Online Retoure nur
-eingeblendet wird, wenn folgende Bedingungen erfüllt sind:
+To create a return label from the customer account, follow these steps:
 
-- Die Bestellung, zu der ein Retoure-Label erzeugt werden soll, existiert
-- Zu der Bestellung wurde bereits eine Sendung erzeugt
-- Der Kunde ist im Kundenbereich angemeldet
-- Die Bestellung wurde durch den angemeldeten Kunden aufgegeben
-- Es wurde ein Retourenportal für die Lieferadresse (Land) konfiguriert
-- Die ursprünglich verwendete Versandart wurde via Konfiguration für DHL Online Retoure freigegeben
+* Log in to the shop frontend
+* In the customer accunt, go to *My orders*
 
-Wird die Erzeugung des Labels nicht aus dem Kundenbereich sondern einer E-Mail
-heraus aufgerufen (siehe Kapitel `Integration in Transaktions-E-Mails`_), wird bei
-Schritt `Versandadresse prüfen`_ begonnen. In diesem Fall ist weder eine Anmeldung im Kundenbereich
-erforderlich noch wird geprüft ob die Bestellung durch den angemeldeten Kunden aufgegeben wurde.
+.. image:: images/en/createlabel-01-my_orders.png
+   :scale: 200 %
 
-Das Adressformular wird angezeigt, wenn die oben genannten Bedingungen erfüllt sind.
+* Open the order you want to return, and click the return-link.
 
-.. figure:: onlineretoure/screenshots/createlabel-01-my_orders.png
-   :width: 16cm
+.. image:: images/en/createlabel-02-order_view.png
+   :scale: 195 %
 
-   Bestellung öffnen
+* Check the shipping address, and correct it if necessary
+* Create the return label
 
-.. figure:: onlineretoure/screenshots/createlabel-02-order_view.png
-   :width: 16cm
+.. image:: images/en/createlabel-03-address_confirmation.png
+   :scale: 195 %
 
-   Retoure-Link betätigen
+.. raw:: pdf
 
-.. figure:: onlineretoure/screenshots/createlabel-03-address_confirmation.png
-   :width: 16cm
+   PageBreak
 
-   Versandadresse prüfen
+* Download the PDF file, open it, and print it
 
-.. figure:: onlineretoure/screenshots/createlabel-04-return_label.png
-   :width: 15cm
+.. image:: images/en/createlabel-04-return_label.png
+   :scale: 220 %
 
-   Retoure-Label
+As soon as a return label has been created, a note will appear in the Magento® admin panel in the order comments.
 
-Sobald ein Retoure-Label durch den Kunden erfolgreich erzeugt wurde, erhält der
-Händler darüber einen Hinweis im Kommentarverlauf einer Bestellung.
+.. image:: images/en/createlabel-05-comments_history.png
+   :scale: 200 %
 
-.. figure:: onlineretoure/screenshots/createlabel-05-comments_history.png
-   :width: 11cm
+**Please note:**
 
-   Eintrag im Kommentarverlauf
+The link for creating an online return will only be displayed in the customer account if:
+
+* the order for the return exists,
+* a shipment has been created for the order,
+* the customer is logged in to the account,
+* the order has been created by the logged in customer,
+* a return portal has been configured for the shipping address (country),
+* the shipping method of the order is linked to *DHL Online Return* in the `Configuration`_.
+
+.. raw:: pdf
+
+   PageBreak
+
+Creating return labels using the email link
+--------------------------------------------
+
+If the customer clicks the return-link in a transactional email, the workflow is nearly identical to
+`Creating return labels from the customer account`_.
+
+However, the customer doesn't have to be logged in to the shop, and there is also no check if the order
+has been created by this customer.
+
+See also `Integration into transactional emails`_.
+
+
+Uninstallation
+==============
+
+To uninstall the module, follow the steps described in the file *readme.md* from
+the module package. It is very important to follow all steps exactly as shown there.
+Do not skip any steps.
+
+Technical support
+===================
+
+In case of questions or problems, please have a look at the Support Portal
+(FAQ) first: http://dhl.support.netresearch.de/
+
+If the problem cannot be resolved, you can contact the support team via the
+Support Portal or by sending an email to dhl.support@netresearch.de
+
+.. admonition:: About login data
+
+   If you don't know your login data, Portal ID, etc. then please **contact DHL directly** and ask to be registered for
+   *Online Returns Variant 3*.
