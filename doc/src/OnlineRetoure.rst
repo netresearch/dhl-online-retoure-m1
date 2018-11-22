@@ -206,8 +206,8 @@ Funktion *getOrder()* bzw. als Variable *$order* vorliegt.
 Retouren Link
 -------------
 
-Wenn Sie nur den Link zum Retouren-Formular einbinden möchten, können Sie anstatt des Templates *dhlonlineretoure/sales/order/email/retoure.phtml*
-das Template *dhlonlineretoure/sales/order/email/retoure_link.phtml* verwenden.
+Wenn Sie nur den Link zum Retouren-Formular einbinden möchten, nicht den gesamten Block, können Sie dieses Template
+verwenden: *"dhlonlineretoure/sales/order/email/retoure_link.phtml"*
 
 ::
 
@@ -218,7 +218,7 @@ das Template *dhlonlineretoure/sales/order/email/retoure_link.phtml* verwenden.
 **Beispiel:**
 
 .. image:: images/de/new_shipment_email_link_source.png
-   :scale: 170 %
+   :scale: 160 %
 
 **Ausgabe in E-Mail:**
 
@@ -245,7 +245,7 @@ Für die Erzeugung eines Retouren-Labels im Kundenkonto sind folgende Schritte e
    :scale: 195 %
 
 * Versandadresse prüfen und ggf. korrigieren
-* Labelerzeugung anstoßen
+* *Retouren-Label erzeugen* anklicken
 
 .. image:: images/de/createlabel-03-address_confirmation.png
    :scale: 195 %
@@ -272,7 +272,7 @@ Der Link zur Erzeugung einer Online Retoure wird im Kundenbereich nur eingeblend
 * zu der Bestellung bereits eine Sendung erzeugt wurde,
 * der Kunde im Kundenbereich angemeldet ist,
 * die Bestellung durch den angemeldeten Kunden aufgegeben wurde,
-* ein Retourenportal für die Lieferadresse (Land) konfiguriert ist,
+* ein Retourenportal für die Lieferadresse (Land des Kunden) konfiguriert ist,
 * die verwendete Versandart in der `Konfiguration`_ mit *DHL Online Retoure* verknüpft ist.
 
 .. raw:: pdf

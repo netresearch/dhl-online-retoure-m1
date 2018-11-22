@@ -200,9 +200,8 @@ Alternatively, you can provide a completely different path, if needed.
 Return link
 -------------
 
-If you want to only include the link to the return form, you can use the template
-*dhlonlineretoure/sales/order/email/retoure_link.phtml* instead of the template
-*dhlonlineretoure/sales/order/email/retoure.phtml*.
+If you want to only include the link to the return form, not the entire block, you can use this template:
+*"dhlonlineretoure/sales/order/email/retoure_link.phtml"*
 
 ::
 
@@ -240,7 +239,7 @@ To create a return label from the customer account, follow these steps:
    :scale: 195 %
 
 * Check the shipping address, and correct it if necessary
-* Create the return label
+* Click *Generate Return Form*
 
 .. image:: images/en/createlabel-03-address_confirmation.png
    :scale: 195 %
@@ -267,7 +266,7 @@ The link for creating an online return will only be displayed in the customer ac
 * a shipment has been created for the order,
 * the customer is logged in to the account,
 * the order has been created by the logged in customer,
-* a return portal has been configured for the shipping address (country),
+* a return portal has been configured for the shipping address (customer's country),
 * the shipping method of the order is linked to *DHL Online Return* in the `Configuration`_.
 
 .. raw:: pdf
