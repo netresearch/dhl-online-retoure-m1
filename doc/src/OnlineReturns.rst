@@ -13,7 +13,7 @@
 .. header::
    .. image:: images/dhl.jpg
       :width: 4.5cm
-      :height: 1.2cm
+      :height: 1.0cm
       :align: right
 
 .. sectnum::
@@ -57,19 +57,19 @@ Server
 - PHP 5.5 or higher must be installed on the server.
 - The PHP SOAP extension must be installed and enabled.
 
-Hints for using the module
+Hints for using the extension
 ========================================
 
 Language support
 -------------------
 
-The module supports the locales *en_US* and *de_DE*. The translations are stored
-in CSV translation files and can therefore be modified by third-party modules.
+The extension supports the locales *en_US* and *de_DE*. The translations are stored
+in CSV translation files and can therefore be modified by third-party extensions.
 
 Data protection
 ---------------
 
-The module transmits personal data to DHL which are needed to process the shipment (names,
+The extension transmits personal data to DHL which are needed to process the shipment (names,
 addresses, etc.).
 
 The merchant needs the agreement from the customer to process the data, e.g. via the shop's
@@ -79,7 +79,7 @@ terms and conditions and / or an agreement in the checkout (Magento® Checkout A
 Installation
 ============
 
-Install the module according to the instructions from the file *readme.md* which you can
+Install the extension according to the instructions from the file *readme.md* which you can
 find in the module package. It is very important to follow all steps exactly as shown there.
 Do not skip any steps.
 
@@ -228,7 +228,7 @@ Creating return labels from the customer account
 To create a return label from the customer account, follow these steps:
 
 * Log in to the shop frontend
-* In the customer accunt, go to *My orders*
+* In the customer account, go to *My orders*
 
 .. image:: images/en/createlabel-01-my_orders.png
    :scale: 200 %
@@ -288,7 +288,7 @@ See also `Integration into transactional emails`_.
 Uninstallation
 ==============
 
-To uninstall the module, follow the steps described in the file *readme.md* from
+To uninstall the extension, follow the steps described in the file *readme.md* from
 the module package. It is very important to follow all steps exactly as shown there.
 Do not skip any steps.
 

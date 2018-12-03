@@ -13,7 +13,7 @@
 .. header::
    .. image:: images/dhl.jpg
       :width: 4.5cm
-      :height: 1.2cm
+      :height: 1.0cm
       :align: right
 
 .. sectnum::
@@ -46,7 +46,7 @@ Folgende Voraussetzungen müssen für den reibungslosen Betrieb der Extension er
 Magento®
 --------
 
-Folgende Magento®-Versionen werden vom Modul unterstützt:
+Folgende Magento®-Versionen werden von der Extension unterstützt:
 
 - Community-Edition (Open Source) 1.7, 1.8, 1.9
 - Enterprise-Edition (Commerce) 1.12, 1.13, 1.14
@@ -64,7 +64,7 @@ Sprachunterstützung
 -------------------
 
 Die Extension unterstützt die Lokalisierungen *en_US* und *de_DE*. Die Übersetzungen
-sind in den CSV-Übersetzungsdateien gepflegt und somit auch durch Dritt-Module anpassbar.
+sind in den CSV-Übersetzungsdateien gepflegt und somit auch durch Dritt-Extensions anpassbar.
 
 Datenschutz
 -----------
@@ -79,7 +79,7 @@ Checkout Agreements / Terms and Conditions).
 Installation
 ============
 
-Installieren Sie das Modul gemäß den Anweisungen in der Datei *readme.md*, die Sie im
+Installieren Sie die Extension gemäß den Anweisungen in der Datei *readme.md*, die Sie im
 Modulpackage finden. Achten Sie darauf, alle Anweisungen exakt zu befolgen und keine
 Schritte zu überspringen.
 
