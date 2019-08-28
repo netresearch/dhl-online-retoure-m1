@@ -5,7 +5,6 @@
 "User","User"
 "Password","Password"
 "Allow customers to print a return form for a previous order.","Allow customers to print a return form for a previous order."
-"Delivery Names","Delivery Names"
 "Delivery Name","Delivery Name"
 "Select country","Select country"
 "Country","Country"
@@ -35,3 +34,5 @@
 "The requested order does not exist.","The requested order does not exist."
 "Create your <a href=""%s"">return label</a> online and deliver your parcel to a <a href=""%s"">nearby location</a>.","Create your <a href=""%s"">return label</a> online and deliver your parcel to a <a href=""%s"">nearby location</a>."
 "Return Order","Return Order"
+"Return Recipient Country Name","Return Recipient Country Name"
+"Select the weight unit that is used in your Product Catalog.","Select the weight unit that is used in your Product Catalog."

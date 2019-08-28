@@ -5,7 +5,6 @@
 "User","Benutzer"
 "Password","Passwort"
 "Allow customers to print a return form for a previous order.","Dem Kunden ermöglichen, einen Retourenschein für eine Sendung zu erstellen."
-"Delivery Names","Retourenportal-Namen"
 "Delivery Name","Name des Retourenportals"
 "Select country","Land auswählen"
 "Country","Land"
@@ -36,3 +35,5 @@
 "The requested order does not exist.","Diese Bestellung existiert nicht."
 "Create your <a href=""%s"">return label</a> online and deliver your parcel to a <a href=""%s"">nearby location</a>.","Erstellen Sie Ihr <a href=""%s"">Retourenlabel</a> online und geben Sie Ihr Paket an einer <a href=""%s"">Abgabestelle in Ihrer Nähe</a> ab."
 "Return Order","Bestellung retournieren"
+"Return Recipient Country Name","Name des Empfängerlandes"
+"Select the weight unit that is used in your Product Catalog.","Geben Sie die Einheit für das im Katalog verwendete Produktgewicht an."

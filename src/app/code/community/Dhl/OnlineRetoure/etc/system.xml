@@ -31,39 +31,94 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </active>
+                        <sandbox_mode>
+                            <label>Sandbox Mode</label>
+                            <tooltip>The Sandbox mode allows testing without entering a username, password, or DHL Customer Number.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sandbox_mode>
+                        <account_user>
+                            <label>User</label>
+                            <tooltip>Username for the DHL Webservice (API). This can be created in the DHL Business Customer Portal.</tooltip>
+                            <comment><![CDATA[Recommendation: Create a System User in the DHL Business Customer Portal.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>required-entry</validate>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <sandbox_mode>0</sandbox_mode>
+                            </depends>
+                        </account_user>
+                        <account_signature>
+                            <label>Signature</label>
+                            <tooltip>Password for the DHL Webservice (API). This can be created in the DHL Business Customer Portal.</tooltip>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <frontend_type>obscure</frontend_type>
+                            <validate>required-entry</validate>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <sandbox_mode>0</sandbox_mode>
+                            </depends>
+                        </account_signature>
+                        <account_ekp>
+                            <label>EKP</label>
+                            <tooltip>Your DHL Customer Number (Account Number / EKP) from the DHL Business Customer Portal.</tooltip>
+                            <comment><![CDATA[See the Knowledge Base tutorial on how to configure the EKP.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>required-entry validate-length minimum-length-10 maximum-length-10</validate>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <sandbox_mode>0</sandbox_mode>
+                            </depends>
+                        </account_ekp>
+                        <account_participation>
+                            <label>Participation Numbers</label>
+                            <tooltip>Participation = the last two characters of the accounting number for the referring product</tooltip>
+                            <comment><![CDATA[See the Knowledge Base tutorial on how to configure the Participation Numbers.]]></comment>
+                            <frontend_model>dhlonlineretoure/adminhtml_form_field_participation</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <sandbox_mode>0</sandbox_mode>
+                            </depends>
+                        </account_participation>
                         <delivery_names translate="label">
-                            <label>Delivery Names</label>
+                            <label>Return Recipient Country Name</label>
                             <frontend_model>dhlonlineretoure/adminhtml_form_field_deliverynames</frontend_model>
                             <backend_model>dhlonlineretoure/system_config_backend_deliverynames</backend_model>
                             <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <depends>
+                                <sandbox_mode>0</sandbox_mode>
+                            </depends>
                        </delivery_names>
-                        <portal_id translate="label comment" module="dhlonlineretoure">
-                            <label>Portal Id</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>200</sort_order>
+                        <shipment_unitofmeasure>
+                            <label>Weight Unit</label>
+                            <tooltip>Select the weight unit that is used in your Product Catalog.</tooltip>
+                            <frontend_type>select</frontend_type>
+                            <source_model>dhlonlineretoure/system_config_source_shipping_unitofmeasure</source_model>
+                            <sort_order>320</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </portal_id>
-                        <user translate="label comment" module="dhlonlineretoure">
-                            <label>User</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>300</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </user>
-                        <password translate="label">
-                            <label>Password</label>
-                            <frontend_type>password</frontend_type>
-                            <sort_order>400</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </password>
+                            <show_in_store>0</show_in_store>
+                        </shipment_unitofmeasure>
                         <cms_revocation_page translate="label" module="dhlonlineretoure">
                             <label>CMS Revocation Page</label>
                             <frontend_type>select</frontend_type>
@@ -83,16 +138,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </allowed_shipping_methods>
-                        <wsdl translate="label comment" module="dhlonlineretoure">
-                            <label>WSDL</label>
-                            <frontend_type>text</frontend_type>
-                            <comment><![CDATA[This URL should not be changed by default.]]></comment>
-                            <validate>validate-url</validate>
-                            <sort_order>600</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </wsdl>
                         <logging_enabled translate="label comment" module="dhlonlineretoure">
                             <label>Logging enabled</label>
                             <frontend_type>select</frontend_type>

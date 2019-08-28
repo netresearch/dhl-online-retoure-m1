@@ -86,8 +86,19 @@
             <dhlonlineretoure>
                 <active>0</active>
                 <logging_enabled>0</logging_enabled>
-                <wsdl><![CDATA[https://amsel.dpwn.net/abholportal/gw/lp/schema/1.0/var3ws.wsdl]]></wsdl>
                 <allowed_countries>AT,BE,BG,CY,CZ,DB,DE,DK,EE,ES,FI,FR,GB,GR,HR,HU,IE,IT,LV,LT,LU,MT,NL,PL,PT,RO,SE,SK,SI</allowed_countries>
+                <sandbox_endpoint>https://cig.dhl.de/services/sandbox/rest</sandbox_endpoint>
+                <sandbox_auth_username>magento_1</sandbox_auth_username>
+                <sandbox_auth_password>2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f</sandbox_auth_password>
+                <sandbox_account_user>2222222222_Customer</sandbox_account_user>
+                <sandbox_account_signature>uBQbZ62!ZiBiVVbhc</sandbox_account_signature>
+                <sandbox_account_ekp>2222222222</sandbox_account_ekp>
+                <sandbox_account_participation backend_model="adminhtml/system_config_backend_serialized_array">
+                    <![CDATA[a:2:{s:18:"_1566309411788_788";a:2:{s:9:"procedure";s:2:"07";s:13:"participation";s:2:"01";}s:18:"_1566380038267_267";a:2:{s:9:"procedure";s:2:"53";s:13:"participation";s:2:"01";}}]]>
+                </sandbox_account_participation>
+                <sandbox_delivery_names><![CDATA[a:16:{s:18:"_1566379566663_663";a:2:{s:3:"iso";s:2:"DE";s:4:"name";s:2:"DE";}s:18:"_1566380291941_941";a:2:{s:3:"iso";s:2:"BE";s:4:"name";s:2:"BE";}s:18:"_1566380340404_404";a:2:{s:3:"iso";s:2:"BG";s:4:"name";s:2:"BG";}s:18:"_1566380376533_533";a:2:{s:3:"iso";s:2:"EE";s:4:"name";s:2:"EE";}s:18:"_1566380394874_874";a:2:{s:3:"iso";s:2:"FI";s:4:"name";s:2:"FI";}s:18:"_1566380409333_333";a:2:{s:3:"iso";s:2:"FR";s:4:"name";s:2:"FR";}s:18:"_1566380432421_421";a:2:{s:3:"iso";s:2:"IE";s:4:"name";s:2:"IE";}s:18:"_1566380444132_132";a:2:{s:3:"iso";s:2:"IT";s:4:"name";s:2:"IT";}s:17:"_1566380464020_20";a:2:{s:3:"iso";s:2:"HR";s:4:"name";s:2:"HR";}s:18:"_1566380539932_932";a:2:{s:3:"iso";s:2:"LT";s:4:"name";s:2:"LV";}s:18:"_1566380574941_941";a:2:{s:3:"iso";s:2:"AT";s:4:"name";s:2:"AT";}s:18:"_1566380626925_925";a:2:{s:3:"iso";s:2:"PL";s:4:"name";s:2:"PL";}s:18:"_1566380635733_733";a:2:{s:3:"iso";s:2:"SE";s:4:"name";s:2:"SE";}s:18:"_1566380649980_980";a:2:{s:3:"iso";s:2:"CZ";s:4:"name";s:2:"CH";}s:18:"_1566380688100_100";a:2:{s:3:"iso";s:2:"HU";s:4:"name";s:2:"HU";}s:18:"_1566380721257_257";a:2:{s:3:"iso";s:2:"GB";s:4:"name";s:2:"UK";}}]]></sandbox_delivery_names>
+                <production_endpoint>https://cig.dhl.de/services/production/rest</production_endpoint>
+                <shipment_unitofmeasure>KG</shipment_unitofmeasure>
             </dhlonlineretoure>
         </shipping>
     </default>

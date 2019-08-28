@@ -4,14 +4,18 @@
  */
 
 /**
- * DHL OnlineRetoure delivery names combined form field (frontend model)
+ * Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
+ * Dhl OnlineRetoure participation numbers combined form field (frontend model)
  *
- * @category    Dhl
- * @package     Dhl_OnlineRetoure
- * @author      André Herrn <andre.herrn@netresearch.de>
- * @author      Christoph Aßmann <christoph.assmann@netresearch.de>
+ * @see template/system/config/form/field/array.phtml
+ *
+ * @category Dhl
+ * @package  Dhl_OnlineRetoure
+ * @author   Sebastian Ertner <sebastian.ertner@netresearch.de>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.netresearch.de/
  */
-class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Deliverynames
+class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
     extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
 {
     /**
@@ -29,13 +33,13 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Deliverynames
     {
         if (!$this->_templateRenderer) {
             $this->_templateRenderer = $this->getLayout()->createBlock(
-                'dhlonlineretoure/adminhtml_form_field_country_select',
+                'dhlonlineretoure/adminhtml_form_field_procedure_select',
                 '',
                 array('is_render_to_js_template' => true)
             );
 
-            /* @var $sourceModel Mage_Adminhtml_Model_System_Config_Source_Country */
-            $sourceModel = Mage::getModel('adminhtml/system_config_source_country');
+            /** @var Dhl_Versenden_Model_Adminhtml_System_Config_Source_Procedure $sourceModel */
+            $sourceModel = Mage::getModel('dhlonlineretoure/adminhtml_system_config_source_procedure');
             $this->_templateRenderer->setOptions($sourceModel->toOptionArray());
         }
 
@@ -43,17 +47,17 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Deliverynames
     }
 
     /**
-     * (non-PHPdoc)
      * @see Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract::_prepareArrayRow()
+     * @param Varien_Object $row
      */
     protected function _prepareArrayRow(Varien_Object $row)
     {
         $row->setData(
-            'option_extra_attr_' . $this->_getTemplateRenderer()->calcOptionHash($row->getData('iso')),
+            'option_extra_attr_' . $this->_getTemplateRenderer()->calcOptionHash($row->getData('procedure')),
             'selected="selected"'
         );
 
-        return parent::_prepareArrayRow($row);
+        parent::_prepareArrayRow($row);
     }
 
     /**
@@ -62,14 +66,19 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Deliverynames
      */
     protected function _prepareToRender()
     {
-        $this->addColumn('iso', array(
-            'label' => Mage::helper('dhlonlineretoure')->__('Country'),
+        $this->addColumn(
+            'procedure', array(
+            'label' => $this->__('Procedure'),
             'renderer' => $this->_getTemplateRenderer()
-        ));
-        $this->addColumn('name', array(
-            'label' => Mage::helper('dhlonlineretoure')->__('Delivery Name'),
-            'style' => 'width:100px',
-        ));
+            )
+        );
+        $this->addColumn(
+            'participation', array(
+            'label' => $this->__('Participation'),
+            'style' => 'width:80px',
+            'class' => 'input-text required-entry'
+            )
+        );
         // hide "Add after" button
         $this->_addAfter = false;
 

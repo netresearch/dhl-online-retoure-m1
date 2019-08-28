@@ -19,6 +19,7 @@
  * @copyright   Copyright (c) 2013 Netresearch GmbH & Co. KG (http://www.netresearch.de/)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+use Dhl_OnlineRetoure_Model_Adminhtml_System_Config_Source_Procedure as Procedure;
 
 /**
  * DHL OnlineRetoure Config Model
@@ -30,7 +31,27 @@
  */
 class Dhl_OnlineRetoure_Model_Config
 {
-    const ONLINERETOURE_LABEL_FORMAT = 'PDF';
+    const CONFIG_XML_PATH_SANDBOX_MODE ='shipping/dhlonlineretoure/sandbox_mode';
+    const CONFIG_XML_PATH_SANDBOX_ENDPOINT = 'shipping/dhlonlineretoure/sandbox_endpoint';
+    const CONFIG_XML_PATH_SANDBOX_AUTH_USERNAME = 'shipping/dhlonlineretoure/sandbox_auth_username';
+    const CONFIG_XML_PATH_SANDBOX_AUTH_PASSWORD = 'shipping/dhlonlineretoure/sandbox_auth_password';
+    const CONFIG_XML_PATH_SANDBOX_USER_NAME ='shipping/dhlonlineretoure/sandbox_account_user';
+    const CONFIG_XML_PATH_SANDBOX_USER_PASSWORD = 'shipping/dhlonlineretoure/sandbox_account_signature';
+    const CONFIG_XML_PATH_SANDBOX_DELIVERY_NAMES = 'shipping/dhlonlineretoure/sandbox_delivery_names';
+    const CONFIG_XML_PATH_SANDBOX_ACCOUNT_PARTICIPATION = 'shipping/dhlonlineretoure/sandbox_account_participation';
+    const CONFIG_XML_PATH_SANDBOX_ACCOUNT_EKP = 'shipping/dhlonlineretoure/sandbox_account_ekp';
+
+    const CONFIG_XML_PATH_PRODUCTION_ENDPOINT = 'shipping/dhlonlineretoure/production_endpoint';
+    const CONFIG_XML_PATH_PRODUCTION_AUTH_USERNAME = 'shipping/dhlonlineretoure/production_account_user';
+    const CONFIG_XML_PATH_PRODUCTION_AUTH_PASSWORD = 'shipping/dhlonlineretoure/production_account_password';
+    const CONFIG_XML_PATH_PRODUCTION_USER_NAME = 'shipping/dhlonlineretoure/account_user';
+    const CONFIG_XML_PATH_PRODUCTION_USER_PASSWORD = 'shipping/dhlonlineretoure/account_signature';
+    const CONFIG_XML_PATH_PRODUCTION_ACCOUNT_EKP = 'shipping/dhlonlineretoure/account_ekp';
+    const CONFIG_XML_PATH_PRODUCTION_ACCOUNT_PARTICIPATION = 'shipping/dhlonlineretoure/account_participation';
+    const CONFIG_XML_PATH_PRODUCTION_DELIVERY_NAMES = 'shipping/dhlonlineretoure/delivery_names';
+
+    const CONFIG_XML_PATH_UNIT_OF_MEASUREMENT = 'shipping/dhlonlineretoure/shipment_unitofmeasure';
+
 
     /**
      * Check if online return is enabled.
@@ -52,54 +73,6 @@ class Dhl_OnlineRetoure_Model_Config
     public function isLoggingEnabled($storeId = null)
     {
         return (bool)Mage::getStoreConfig('shipping/dhlonlineretoure/logging_enabled', $storeId);
-    }
-
-    /**
-     * Retrieve online return portal ID.
-     *
-     * @param mixed $storeId
-     * @return string
-     */
-    public function getPortalId($storeId = null)
-    {
-        $portalId = Mage::getStoreConfig('shipping/dhlonlineretoure/portal_id', $storeId);
-        if (!$portalId) {
-            return '';
-        }
-
-        return $portalId;
-    }
-
-    /**
-     * Obtain user for online return label request.
-     *
-     * @param mixed $storeId
-     * @return string
-     */
-    public function getUser($storeId = null)
-    {
-        $user = Mage::getStoreConfig('shipping/dhlonlineretoure/user', $storeId);
-        if (!$user) {
-            return '';
-        }
-
-        return $user;
-    }
-
-    /**
-     * Obtain password for online return label request.
-     *
-     * @param mixed $storeId
-     * @return string
-     */
-    public function getPassword($storeId = null)
-    {
-        $password = Mage::getStoreConfig('shipping/dhlonlineretoure/password', $storeId);
-        if (!$password) {
-            return '';
-        }
-
-        return $password;
     }
 
     /**
@@ -129,11 +102,16 @@ class Dhl_OnlineRetoure_Model_Config
      */
     public function getDeliveryNameByCountry($iso2Code, $storeId = null)
     {
-        if (!is_string($iso2Code) || (strlen($iso2Code) != 2)) {
+        if (!is_string($iso2Code) || (strlen($iso2Code) !== 2)) {
             throw new Exception('Please provide valid two-character country code.');
         }
 
-        $deliverynames = unserialize(Mage::getStoreConfig('shipping/dhlonlineretoure/delivery_names', $storeId));
+        if ($this->isSandboxModeEnabled($storeId)) {
+            $deliverynames = unserialize(Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_DELIVERY_NAMES, $storeId));
+        } else {
+            $deliverynames = unserialize(Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_DELIVERY_NAMES, $storeId));
+        }
+
         if (!is_array($deliverynames)) {
             return '';
         }
@@ -145,22 +123,6 @@ class Dhl_OnlineRetoure_Model_Config
         }
 
         return '';
-    }
-
-    /**
-     * Obtain WSDL URI from config.
-     *
-     * @param mixed $storeId
-     * @return string
-     */
-    public function getWsdlUri($storeId = null)
-    {
-        $wsdl = Mage::getStoreConfig('shipping/dhlonlineretoure/wsdl', $storeId);
-        if (!$wsdl) {
-            return '';
-        }
-
-        return $wsdl;
     }
 
     /**
@@ -190,8 +152,7 @@ class Dhl_OnlineRetoure_Model_Config
             $originalMethods
         );
 
-        $allowedShippingMethods = array_merge($originalMethods, $dhlMethods);
-        return $allowedShippingMethods;
+        return array_merge($originalMethods, $dhlMethods);
     }
 
     /**
@@ -203,6 +164,156 @@ class Dhl_OnlineRetoure_Model_Config
     public function isAllowedShippingMethod($shippingMethod)
     {
         $allowedShippingMethods = $this->getAllowedShippingMethods();
+
         return in_array($shippingMethod, $allowedShippingMethods);
+    }
+
+    /**
+     * @param $store
+     * @return bool
+     */
+    public function isSandboxModeEnabled($store=null)
+    {
+        return Mage::getStoreConfigFlag(self::CONFIG_XML_PATH_SANDBOX_MODE, $store);
+    }
+
+    /**
+     * Obtain username for CIG authentication.
+     *
+     * @return string
+     */
+    public function getWebserviceAuthUsername()
+    {
+        if ($this->isSandboxModeEnabled()) {
+            return Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_AUTH_USERNAME);
+        }
+
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_AUTH_USERNAME);
+    }
+
+    /**
+     * Obtain password for CIG authentication.
+     *
+     * @return string
+     */
+    public function getWebserviceAuthPassword()
+    {
+        if ($this->isSandboxModeEnabled()) {
+            return Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_AUTH_PASSWORD);
+        }
+
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_AUTH_PASSWORD);
+    }
+
+    /**
+     * Obtain the webservice endpoint address (location).
+     *
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        if ($this->isSandboxModeEnabled()) {
+            return Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_ENDPOINT);
+        }
+
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_ENDPOINT);
+    }
+
+    /**
+     * @param null $store
+     * @return string
+     */
+    public function getUserName($store = null)
+    {
+        if ($this->isSandboxModeEnabled()) {
+            return Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_USER_NAME, $store);
+        }
+
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_USER_NAME, $store);
+    }
+
+    /**
+     * @param null $store
+     * @return string
+     */
+    public function getUserPassword($store = null)
+    {
+        if ($this->isSandboxModeEnabled()) {
+            return Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_USER_PASSWORD, $store);
+        }
+
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_USER_PASSWORD, $store);
+    }
+
+    /**
+     * @param null $store
+     * @return string
+     */
+    public function getEKP($store = null)
+    {
+        if ($this->isSandboxModeEnabled()) {
+            return Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_ACCOUNT_EKP, $store);
+        }
+
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_ACCOUNT_EKP, $store);
+    }
+
+    /**
+     * @param null $store
+     * @return mixed
+     */
+    public function getAccountParticipation($store = null)
+    {
+        if ($this->isSandboxModeEnabled()) {
+            $participations = Mage::getStoreConfig(self::CONFIG_XML_PATH_SANDBOX_ACCOUNT_PARTICIPATION, $store);
+        } else {
+            $participations = Mage::getStoreConfig(self::CONFIG_XML_PATH_PRODUCTION_ACCOUNT_PARTICIPATION, $store);
+        }
+
+        $participation = array();
+        foreach ($participations as $participationEntry) {
+            $participation[$participationEntry['procedure']] = $participationEntry['participation'];
+        }
+
+
+        return $participation;
+    }
+
+    /**
+     * @param $recipientCountry
+     * @param null $store
+     * @return string
+     */
+    public function getBillingNumber($recipientCountry, $store = null)
+    {
+        $ekp = $this->getEKP($store);
+        $participationNumbers = $this->getAccountParticipation($store);
+
+        $participationNumber = $participationNumbers[Procedure::PROCEDURE_RETURNSHIPMENT_NATIONAL] ;
+        if ($this->recipientCountryIsNonEU($recipientCountry)) {
+            $participationNumber = $participationNumbers[Procedure::PROCEDURE_RETURNSHIPMENT_INTERNATIONAL] ;
+        }
+
+
+        return $ekp . $participationNumber;
+    }
+
+    /**
+     * @param string $recipientCountry
+     * @return bool
+     */
+    public function recipientCountryIsNonEU($recipientCountry)
+    {
+        $euCountryArray= explode(',', Mage::getStoreConfig('general/country/eu_countries'));
+        return (!in_array($recipientCountry, $euCountryArray, true));
+    }
+
+    /**
+     * @param null $store
+     * @return string
+     */
+    public function getShipmentUnitOfMeasurement($store = null)
+    {
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_UNIT_OF_MEASUREMENT, $store);
     }
 }

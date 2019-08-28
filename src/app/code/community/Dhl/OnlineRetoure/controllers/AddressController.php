@@ -68,13 +68,13 @@ class Dhl_OnlineRetoure_AddressController extends Dhl_OnlineRetoure_Controller_A
                 $order->getIncrementId(),
                 $filenameDate
             ),
-            base64_decode($response->label),
+            base64_decode($response->labelData),
             'application/pdf'
         );
 
-        $comment = 'Return label with ident code (IDC) %s successfully created on %s.';
+        $comment = 'Return label with shipment number %s successfully created on %s.';
         $order
-            ->addStatusHistoryComment($this->__($comment, $response->idc, $localeDate))
+            ->addStatusHistoryComment($this->__($comment, $response->shipmentNumber, $localeDate))
             ->setIsVisibleOnFront(true)
             ->save();
 
@@ -118,6 +118,9 @@ class Dhl_OnlineRetoure_AddressController extends Dhl_OnlineRetoure_Controller_A
         }
     }
 
+    /**
+     * @return Dhl_OnlineRetoure_AddressController|Mage_Core_Controller_Varien_Action
+     */
     public function formPostAction()
     {
         if (!$this->_validateFormKey()) {
@@ -127,11 +130,10 @@ class Dhl_OnlineRetoure_AddressController extends Dhl_OnlineRetoure_Controller_A
         $orderId = (int) $this->getRequest()->getParam('order_id');
         $hash    = $this->getRequest()->getParam('hash');
 
-        /* @var $client Dhl_OnlineRetoure_Model_Soap_Client */
-        $client = Mage::getModel('dhlonlineretoure/soap_client');
+        /* @var $client Dhl_OnlineRetoure_Model_Rest_Client */
+        $client = Mage::getModel('dhlonlineretoure/rest_client');
 
         try {
-
             $this->loadValidOrder($orderId, $hash);
 
             // Send data
@@ -140,59 +142,48 @@ class Dhl_OnlineRetoure_AddressController extends Dhl_OnlineRetoure_Controller_A
                 $order = Mage::registry('current_order');
                 $this->_setShippingAddress($order, $this->getRequest()->getPost());
 
-                $client
-                    ->setConfig(Mage::getModel('dhlonlineretoure/config'))
-                    ->setOrder($order);
+                /** @var Dhl_OnlineRetoure_Model_Rest_RequestBuilder $requestBuilder */
+                $requestBuilder = Mage::getModel('dhlonlineretoure/rest_requestBuilder');
 
-                $response = $client->requestLabel();
+                /** @var Dhl_OnlineRetoure_Model_Config $config */
+                $config = Mage::getModel('dhlonlineretoure/config');
+                $requestBuilder->setOrder($order);
+                $requestBuilder->setConfig($config);
+
+                $request = $requestBuilder->build();
+                $response = (object) $client->getReturnLabel($request);
+
+                if ($client->getLastResponse()->isError()) {
+                    $message = Mage::helper('dhlonlineretoure/data')->__(
+                        'There was a error during return label request. Please contact customer support.'
+                    );
+                    throw new Exception($message, Zend_Log::ERR);
+                }
+
                 return $this->_printPdf($response, $order);
             }
 
         } catch (Dhl_OnlineRetoure_Model_Validate_Exception $e) {
 
             // error while accessing page
-            Mage::helper("dhlonlineretoure/data")->log($e->getMessage());
+            Mage::helper('dhlonlineretoure/data')->log($e->getMessage());
             Mage::getSingleton('core/session')->addError($e->getMessage());
 
-        } catch (SoapFault $e) {
+        } catch (Exception $e) {
 
             $this->getSession()->setAddressFormData($this->getRequest()->getPost());
 
             // error while performing the web service request -> user message
-            $message = $this->__(
-                'The web service request failed with the following error message: "%s"',
-                $e->faultstring
-            );
+            $message = $this->__('The web service request failed with the following error message: "%s"', $e->getMessage());
             Mage::getSingleton('core/session')->addError($message);
 
-            // error while performing the web service request -> log message
-            $logMessage = sprintf(
-                "\nERROR - Return Label Gateway Request\n  faultcode: %s\n  faultstring: %s\n Request:\n%s",
-                $e->faultcode,
-                $e->faultstring,
-                $client->getLastRequest()
-            );
-            Mage::helper("dhlonlineretoure/data")->log($logMessage);
 
             $params = Mage::helper('dhlonlineretoure/validate')->getUrlParams($orderId, $hash);
             return $this->_redirectError(Mage::getUrl('*/*/confirm', $params));
 
-        } catch (Exception $e) {
-            // unknown error
-            Mage::getSingleton('core/session')->addError(
-                $this->__("An error occured while trying to create a return label. Error code 50001111.")
-            );
-            Mage::helper("dhlonlineretoure/data")->log(
-                sprintf(
-                    "A '%s' occured in method formPostAction() with message '%s'",
-                    get_class($e),
-                    $e->getMessage()
-                )
-            );
-
         }
 
-        Mage::helper("dhlonlineretoure/validate")->logFailure();
+        Mage::helper('dhlonlineretoure/validate')->logFailure();
         return $this->_redirectError(Mage::getUrl('*/*/error'));
     }
 }
