@@ -3,6 +3,10 @@
     "license": "OSL-3.0",
     "type": "magento-module",
     "description": "DHL Online Retoure module for Magento",
+    "require": {
+        "ext-gd": "*",
+        "ext-json": "*"
+    },
     "suggest": {
         "magento-hackathon/magento-composer-installer": "^3.0.6"
     },

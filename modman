@@ -4,6 +4,7 @@ src/app/design/frontend/base/default/template/dhl_onlineretoure/ app/design/fron
 src/app/etc/modules/Dhl_OnlineRetoure.xml app/etc/modules/Dhl_OnlineRetoure.xml
 src/app/locale/de_DE/Dhl_OnlineRetoure.csv app/locale/de_DE/Dhl_OnlineRetoure.csv
 src/app/locale/en_US/Dhl_OnlineRetoure.csv app/locale/en_US/Dhl_OnlineRetoure.csv
+src/skin/frontend/base/default/css/dhl_onlineretoure/ skin/frontend/base/default/css/dhl_onlineretoure/
 
 
 

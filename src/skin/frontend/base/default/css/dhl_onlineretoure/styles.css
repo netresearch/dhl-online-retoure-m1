@@ -1,0 +1,26 @@
+#returnItems {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+#returnItems .table-responsive {
+    margin-bottom: 30px;
+}
+
+#returnItems .table-responsive:last-child {
+    margin-bottom: 0;
+}
+
+#returnItems .table-responsive tr {
+    width: 100%;
+}
+
+#returnItems .table-responsive input[type=number] {
+    -moz-appearance:textfield;
+}
+
+#returnItems .table-responsive input[type=number]::-webkit-inner-spin-button,
+#returnItems .table-responsive input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

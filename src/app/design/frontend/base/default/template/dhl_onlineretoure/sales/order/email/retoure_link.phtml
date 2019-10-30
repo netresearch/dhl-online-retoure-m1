@@ -1,5 +1,6 @@
-<?php $order = $this->getOrder(); ?>
-<?php /* @var $validateHelper Dhl_OnlineRetoure_Helper_Validate */ ?>
+<?php /** @var Dhl_OnlineRetoure_Block_Sales_Order_Email_Retoure $this */ ?>
+<?php $order = $this->getData('order'); ?>
+<?php /** @var Dhl_OnlineRetoure_Helper_Validate $validateHelper */ ?>
 <?php $validateHelper = Mage::helper("dhlonlineretoure/validate"); ?>
 
 <?php
@@ -8,10 +9,10 @@
  * true === $validateHelper->isOrderHasShipments($order)
  * ... to the following if-statement
  */
-if (($order && $validateHelper->isModuleFrontendEnabled()
-    && $validateHelper->isDeliveryNameAvailable($order)
-    && Mage::getModel("dhlonlineretoure/config")->isAllowedShippingMethod($order->getShippingMethod()))
+if (($order instanceof Mage_Sales_Model_Order && $validateHelper->isModuleFrontendEnabled($order)
+    && $validateHelper->isReceiverIdAvailable($order)
+    && Mage::getModel("dhlonlineretoure/config")->isAllowedShippingMethod($order->getShippingMethod(), $order->getStoreId()))
 ):
 ?>
-    <?php echo $this->getReturnLinkWithHash();?>
+    <?php echo $this->getReturnLinkWithHash(); ?>
 <?php endif; ?>

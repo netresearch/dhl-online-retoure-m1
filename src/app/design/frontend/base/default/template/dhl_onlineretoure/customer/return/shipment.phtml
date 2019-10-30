@@ -1,0 +1,68 @@
+<?php
+/**
+* Dhl OnlineRetoure
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Open Software License (OSL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/osl-3.0.php
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade this extension to
+* newer versions in the future.
+*
+* @category    design
+* @package     base_default
+* @copyright   Copyright (c) 2019 Netresearch DDT GmbH (https://www.netresearch.de/)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+?>
+<?php /* @var $this Dhl_OnlineRetoure_Block_Customer_Return_Shipment */ ?>
+<div>
+    <?php /** @var $shipment Mage_Sales_Model_Order_Shipment */ ?>
+    <?php foreach ($this->getShipments() as $shipment): ?>
+        <h3><?php echo $this->escapeHtml($this->__('Shipment #%s', $shipment->getIncrementId())) ?></h3>
+            <table class="data-table table-responsive">
+                <thead>
+                <tr>
+                    <th><?php echo $this->escapeHtml($this->__('Item')) ?></th>
+                    <th><?php echo $this->escapeHtml($this->__('Qty Shipped')) ?></th>
+                    <th><?php echo $this->escapeHtml($this->__('Qty to Return')) ?></th>
+                </tr>
+                </thead>
+                <?php foreach ($this->getShipmentItems($shipment) as $item): ?>
+                <tr class="first last odd">
+                    <td>
+                        <img class="product-image" src="<?php echo $this->escapeUrl($item->getThumbnail()) ?>"
+                             alt="<?php echo $this->escapeHtml($item->getItemName()) ?>">
+                        <div class="product-name"><span><b><?php echo $this->escapeHtml($item->getItemName()) ?></b></span></div>
+                        <div class="product-sku"><span><b><?php echo $this->escapeHtml($this->__('SKU')) ?>:</b> <?php echo $this->escapeHtml($item->getSku()) ?></span></div>
+                        <?php if (count($item->getItemOptions()) > 0): ?>
+                            <div>
+                                <?php foreach ($item->getItemOptions() as $option): ?>
+                                    <dl class="item-options">
+                                        <dt><?php echo $this->escapeHtml($option['label']) ?></dt>
+                                        <dd><?php echo $this->escapeHtml($option['value']) ?></dd>
+                                    </dl>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div><span><?php echo $item->getQty() ?></span></div>
+                    </td>
+                    <td>
+                        <input type="number" min="0" max="<?php echo (int) $item->getQty() ?>"
+                               name="returns[shipments][<?php echo $item->getShipmentIncrementId() ?>][items][<?php echo $item->getShipmentItemEntityId() ?>][return_qty]"
+                               class="input-text qty validate-number-range number-range-0-<?php echo (int) $item->getQty() ?>"
+                               value="0"
+                        >
+                    </td>
+                </tr>
+             <?php endforeach; ?>
+            </table>
+    <?php endforeach; ?>
+</div>

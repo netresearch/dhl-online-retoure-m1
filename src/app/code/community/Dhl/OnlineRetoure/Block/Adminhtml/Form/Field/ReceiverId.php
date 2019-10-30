@@ -4,22 +4,22 @@
  */
 
 /**
- * Dhl OnlineRetoure participation numbers combined form field (frontend model).
+ * Dhl OnlineRetoure receiver id combined form field (frontend model).
  *
  * @see template/system/config/form/field/array.phtml
  *
  * @package Dhl_OnlineRetoure
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
+ * @author  André Herrn <andre.herrn@netresearch.de>
+ * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
+class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_ReceiverId
     extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
 {
     /**
      * @var Mage_Core_Block_Html_Select
      */
     protected $_templateRenderer;
-
 
     /**
      * Create renderer used for displaying the country select element
@@ -29,7 +29,7 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
     protected function _getTemplateRenderer()
     {
         if (!$this->_templateRenderer) {
-            $sourceModel = Mage::getModel('dhlonlineretoure/adminhtml_system_config_source_procedure');
+            $sourceModel = Mage::getModel('adminhtml/system_config_source_country');
 
             $this->_templateRenderer = $this->getLayout()->createBlock(
                 'adminhtml/html_select',
@@ -37,7 +37,7 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
                 array(
                     'is_render_to_js_template' => true,
                     'class' => 'select',
-                    'title' => Mage::helper('dhlonlineretoure/data')->__('Select Procedure'),
+                    'title' => Mage::helper('dhlonlineretoure/data')->__('Select Country'),
                 )
             );
 
@@ -50,16 +50,16 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
     /**
      * Prepare existing row data object
      *
-     * @param Varien_Object $row
+     * @param Varien_Object
      */
     protected function _prepareArrayRow(Varien_Object $row)
     {
         $row->setData(
-            'option_extra_attr_' . $this->_getTemplateRenderer()->calcOptionHash($row->getData('procedure')),
+            'option_extra_attr_' . $this->_getTemplateRenderer()->calcOptionHash($row->getData('iso')),
             'selected="selected"'
         );
 
-        parent::_prepareArrayRow($row);
+        return parent::_prepareArrayRow($row);
     }
 
     /**
@@ -68,20 +68,20 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
     protected function _prepareToRender()
     {
         $this->addColumn(
-            'procedure',
+            'iso',
             array(
-                'label' => $this->__('Procedure'),
+                'label' => $this->__('Country'),
                 'renderer' => $this->_getTemplateRenderer()
             )
         );
         $this->addColumn(
-            'participation',
+            'name',
             array(
-                'label' => $this->__('Participation'),
-                'style' => 'width:80px',
-                'class' => 'input-text required-entry'
+                'label' => $this->__('Receiver ID'),
+                'style' => 'width:100px',
             )
         );
+
         // hide "Add after" button
         $this->_addAfter = false;
 

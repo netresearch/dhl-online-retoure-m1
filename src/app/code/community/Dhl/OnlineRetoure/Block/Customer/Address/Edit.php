@@ -1,37 +1,23 @@
 <?php
 /**
- * Dhl OnlineRetoure
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this extension to
- * newer versions in the future.
- *
- * @category    Dhl
- * @package     Dhl_OnlineRetoure
- * @copyright   Copyright (c) 2013 Netresearch GmbH & Co. KG (http://www.netresearch.de/)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * See LICENSE.md for license details.
  */
 
 /**
  * DHL OnlineRetoure shipping address confirmation form
  *
- * @category    Dhl
- * @package     Dhl_OnlineRetoure
- * @author      André Herrn <andre.herrn@netresearch.de>
- * @author      Christoph Aßmann <christoph.assmann@netresearch.de>
+ * @package Dhl_OnlineRetoure
+ * @author  André Herrn <andre.herrn@netresearch.de>
+ * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Block_Customer_Address_Edit extends Mage_Directory_Block_Data
 {
     protected $_address;
 
+    /**
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -48,6 +34,8 @@ class Dhl_OnlineRetoure_Block_Customer_Address_Edit extends Mage_Directory_Block
         if ($postedData = Mage::getSingleton('customer/session')->getAddressFormData(true)) {
             $this->_address->addData($postedData);
         }
+
+        return $this;
     }
 
     /**
@@ -57,56 +45,77 @@ class Dhl_OnlineRetoure_Block_Customer_Address_Edit extends Mage_Directory_Block
      */
     public function getNameBlockHtml()
     {
-        $nameBlock = $this->getLayout()
-            ->createBlock('customer/widget_name')
-            ->setObject($this->getAddress());
+        $nameBlock = $this->getLayout()->createBlock('customer/widget_name');
+        $nameBlock->setData('object', $this->getAddress());
 
         return $nameBlock->toHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('sales/order/view', array('order_id' => $this->getOrder()->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getSaveUrl()
     {
-        /* @var $helper Dhl_OnlineRetoure_Helper_Validate */
+        /** @var Dhl_OnlineRetoure_Helper_Validate $helper */
         $helper = $this->helper('dhlonlineretoure/validate');
         $params = $helper->getUrlParams($this->getOrder()->getId(), $this->getRequestHash());
-        return $this->getUrl('dhlonlineretoure/address/formPost', $params);
+        return $this->getUrl('dhlonlineretoure/label/formPost', $params);
     }
 
+    /**
+     * @return Mage_Customer_Model_Customer
+     */
     public function getCustomer()
     {
-        /* @var $helper Dhl_OnlineRetoure_Helper_Data */
+        /** @var Dhl_OnlineRetoure_Helper_Data $helper */
         $helper = $this->helper('dhlonlineretoure/data');
         return $helper->getLoggedInCustomer();
     }
 
+    /**
+     * @return string
+     */
     public function getCountryId()
     {
         if ($countryId = $this->getAddress()->getCountryId()) {
             return $countryId;
         }
+
         return parent::getCountryId();
     }
 
+    /**
+     * @return string
+     */
     public function getRegionId()
     {
         return $this->getAddress()->getRegionId();
     }
 
+    /**
+     * @return Mage_Sales_Model_Order_Address
+     */
     public function getAddress()
     {
         return $this->_address;
     }
 
+    /**
+     * @return string
+     */
     public function getRevocationPageUrl()
     {
-        /* @var $config Dhl_OnlineRetoure_Model_Config */
+        /** @var Dhl_OnlineRetoure_Model_Config $config */
         $config = Mage::getModel('dhlonlineretoure/config');
-        $urlKey = $config->getCmsRevocationPage();
+        $urlKey = $config->getCmsRevocationPage($this->getOrder()->getStoreId());
         if (!$urlKey) {
             return '';
         }
@@ -120,7 +129,11 @@ class Dhl_OnlineRetoure_Block_Customer_Address_Edit extends Mage_Directory_Block
      */
     public function getRequestHash()
     {
-        return $this->getRequest()->getQuery('hash', '');
+        try {
+            return $this->getRequest()->getQuery('hash', '');
+        } catch (Exception $exception) {
+            return '';
+        }
     }
 
     /**
@@ -129,17 +142,5 @@ class Dhl_OnlineRetoure_Block_Customer_Address_Edit extends Mage_Directory_Block
     public function getOrder()
     {
         return Mage::registry('current_order');
-    }
-
-    /**
-     * Get Page Title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return Mage::helper('dhlonlineretoure/data')->__(
-            "Check shipping address for DHL Online Return"
-        );
     }
 }

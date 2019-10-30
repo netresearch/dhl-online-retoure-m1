@@ -2,15 +2,15 @@
 /**
  * See LICENSE.md for license details.
  */
+
 use Dhl_OnlineRetoure_Model_Rest_Request_Country as Country;
 
 /**
  * Class Dhl_OnlineRetoure_Model_Rest_Request_SimpleAddress
  *
- * @category Dhl
- * @package  Dhl_OnlineRetoure
- * @author   Sebastian Ertner <sebastian.ertner@netresearch.de>
- * @link     https://www.netresearch.de/
+ * @package Dhl_OnlineRetoure
+ * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_Rest_Request_SimpleAddress implements JsonSerializable
 {
@@ -59,6 +59,6 @@ class Dhl_OnlineRetoure_Model_Rest_Request_SimpleAddress implements JsonSerializ
      */
     public function jsonSerialize()
     {
-        return get_object_vars($this);
+        return array_filter(get_object_vars($this));
     }
 }

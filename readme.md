@@ -26,7 +26,7 @@ Requirements
 
 Compatibility
 -------------
-- Magento CE >= 1.7
+- Magento CE >= 1.9
 
 Installation Instructions
 -------------------------

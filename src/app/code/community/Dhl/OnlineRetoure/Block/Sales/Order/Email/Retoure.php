@@ -1,11 +1,14 @@
 <?php
 /**
+ * See LICENSE.md for license details.
+ */
+
+/**
  * Dhl_OnlineRetoure_Block_Sales_Order_Email_Retoure
  *
- * @package   Dhl_Account
- * @author    André Herrn <andre.herrn@netresearch.de>
- * @copyright Copyright (c) 2013 Netresearch GmbH & Co.KG <http://www.netresearch.de/>
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @package Dhl_OnlineRetoure
+ * @author  André Herrn <andre.herrn@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Block_Sales_Order_Email_Retoure extends Mage_Core_Block_Template
 {
@@ -16,18 +19,18 @@ class Dhl_OnlineRetoure_Block_Sales_Order_Email_Retoure extends Mage_Core_Block_
      */
     public function getReturnLinkWithHash()
     {
-        /* @var $helper Dhl_OnlineRetoure_Helper_Validate */
+        /** @var Mage_Sales_Model_Order $order */
+        $order = $this->getData('order');
+
+        /** @var Dhl_OnlineRetoure_Helper_Validate $helper */
         $helper = Mage::helper('dhlonlineretoure/validate');
 
-        $hash = $helper->createHashForOrder($this->getOrder());
+        $hash = $helper->createHashForOrder($order);
 
-        $helper->log($helper->__(
-            "Created hash '%s' for order '%s' to send by email",
-            $hash,
-            $this->getOrder()->getIncrementId()
-        ), Zend_Log::INFO);
+        $msg = $helper->__("Created hash '%s' for order '%s' to send by email", $hash, $order->getIncrementId());
+        $helper->log($msg, Zend_Log::INFO);
 
-        $params = $helper->getUrlParams($this->getOrder()->getId(), $hash);
-        return Mage::getUrl('dhlonlineretoure/address/confirm', $params);
+        $params = $helper->getUrlParams($order->getId(), $hash);
+        return Mage::getUrl('dhlonlineretoure/create/index', $params);
     }
 }

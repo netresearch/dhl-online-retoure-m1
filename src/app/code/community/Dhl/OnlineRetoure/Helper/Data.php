@@ -1,11 +1,14 @@
 <?php
 /**
+ * See LICENSE.md for license details.
+ */
+
+/**
  * Dhl_OnlineRetoure_Helper_Data
  *
- * @package   Dhl_Account
- * @author    André Herrn <andre.herrn@netresearch.de>
- * @copyright Copyright (c) 2012 Netresearch GmbH & Co.KG <http://www.netresearch.de/>
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @package Dhl_OnlineRetoure
+ * @author  André Herrn <andre.herrn@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Helper_Data extends Mage_Core_Helper_Data
 {
@@ -74,18 +77,18 @@ class Dhl_OnlineRetoure_Helper_Data extends Mage_Core_Helper_Data
          * third pattern  | care_of                 | optional | ([^0-9]+.*)?      | all characters != 0-9 + any character except newline
          */
         if (preg_match("/^([^0-9]+)([0-9]+[ ])*[ \t]*([0-9]*[-\w^.]*)?[, \t]*([^0-9]+.*)?\$/", $street, $matches)) {
-
             //check if street has additional value and add it to streetname
             if (preg_match("/^([0-9]+)?\$/", trim($matches[2]))) {
                 $matches[1] = $matches[1] . $matches[2];
-
             }
+
             return array(
                 'street_name'   => trim($matches[1]),
                 'street_number' => isset($matches[3]) ? $matches[3] : '',
                 'care_of'       => isset($matches[4]) ? trim($matches[4]) : ''
             );
         }
+
         return array(
             'street_name'   => $street,
             'street_number' => '',
@@ -107,6 +110,7 @@ class Dhl_OnlineRetoure_Helper_Data extends Mage_Core_Helper_Data
             $logfile = 'dhl_retoure.log';
             Mage::log($message, $level, $logfile, $force);
         }
+
         return $this;
     }
 }

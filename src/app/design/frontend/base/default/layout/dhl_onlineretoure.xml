@@ -9,7 +9,13 @@
  */
 -->
 <layout>
-    <dhlonlineretoure_address_confirm>
+    <dhlonlineretoure_create_index>
+        <reference name="head">
+            <action method="addItem" ifconfig="shipping/dhlonlineretoure/active">
+                <type>skin_css</type>
+                <script>css/dhl_onlineretoure/styles.css</script>
+            </action>
+        </reference>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
             <block type="dhlonlineretoure/customer_address_edit"
@@ -21,20 +27,24 @@
                 </action>
                 <action method="setData">
                     <name>back_url</name>
-                    <value></value>
                 </action>
+
+                <block type="core/template" name="dhlonlineretoure_return_items"
+                       template="dhl_onlineretoure/customer/return/fieldset.phtml">
+
+                    <block type="dhlonlineretoure/customer_return_shipment" name="dhlonlineretoure.return.shipment"
+                           template="dhl_onlineretoure/customer/return/shipment.phtml"
+                    />
+                </block>
             </block>
         </reference>
+
         <reference name="root">
             <action method="setHeaderTitle" module="dhlonlineretoure">
                 <title>DHL Online Retoure</title>
             </action>
         </reference>
-    </dhlonlineretoure_address_confirm>
-
-    <dhlonlineretoure_address_error>
-        <update handle="customer_account"/>
-    </dhlonlineretoure_address_error>
+    </dhlonlineretoure_create_index>
 
     <sales_order_view>
         <reference name="sales.order.info.buttons">
@@ -45,4 +55,14 @@
             />
         </reference>
     </sales_order_view>
+
+    <sales_order_shipment>
+        <reference name="sales.order.info.buttons">
+            <block type="dhlonlineretoure/sales_order_info_buttons_return"
+                   name="dhlonlineretoure.sales.order.info.buttons.return"
+                   as="dhlreturn"
+                   template="dhl_onlineretoure/sales/order/info/buttons/return.phtml"
+            />
+        </reference>
+    </sales_order_shipment>
 </layout>

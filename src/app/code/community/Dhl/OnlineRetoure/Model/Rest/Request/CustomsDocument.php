@@ -6,10 +6,9 @@
 /**
  * Class Dhl_OnlineRetoure_Model_Rest_Request_CustomsDocument
  *
- * @category Dhl
- * @package  Dhl_OnlineRetoure
- * @author   Sebastian Ertner <sebastian.ertner@netresearch.de>
- * @link     https://www.netresearch.de/
+ * @package Dhl_OnlineRetoure
+ * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_Rest_Request_CustomsDocument implements JsonSerializable
 {
@@ -54,10 +53,10 @@ class Dhl_OnlineRetoure_Model_Rest_Request_CustomsDocument implements JsonSerial
     public $positions;
 
     /**
-     * @return string
+     * @return string[]
      */
     public function jsonSerialize()
     {
-        return get_object_vars($this);
+        return array_filter(get_object_vars($this));
     }
 }

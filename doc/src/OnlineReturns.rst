@@ -55,7 +55,7 @@ Server
 ------
 
 - PHP 5.5 or higher must be installed on the server.
-- The PHP SOAP extension must be installed and enabled.
+- The PHP extensions JSON and GD must be installed and enabled.
 
 Hints for using the extension
 ========================================
@@ -161,7 +161,7 @@ to Magento®'s transactional email templates:
 
   {{block type='dhlonlineretoure/sales_order_email_retoure'
     area='frontend'
-    template='dhlonlineretoure/sales/order/email/retoure.phtml'
+    template='dhl_onlineretoure/sales/order/email/retoure.phtml'
     order=$order}}
 
 A suitable position would be below the shipping information.

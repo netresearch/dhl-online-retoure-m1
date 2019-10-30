@@ -1,36 +1,44 @@
 <?php
 /**
+ * See LICENSE.md for license details.
+ */
+
+/**
  * Dhl_OnlineRetoure_Helper_Validate
  *
- * @package   Dhl_Account
- * @author    André Herrn <andre.herrn@netresearch.de>
- * @copyright Copyright (c) 2012 Netresearch GmbH & Co.KG <http://www.netresearch.de/>
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @package Dhl_OnlineRetoure
+ * @author  André Herrn <andre.herrn@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
 {
     const REQUEST_TYPE_INTERNAL = "internal";
     const REQUEST_TYPE_HASH     = "hash";
 
+    /**
+     * @param $message
+     * @param null $messageStorage
+     * @throws Dhl_OnlineRetoure_Exception_OrderValidationException
+     */
     public static function throwException($message, $messageStorage = null)
     {
         if ($messageStorage && ($storage = Mage::getSingleton($messageStorage))) {
             $storage->addError($message);
         }
-        throw new Dhl_OnlineRetoure_Model_Validate_Exception($message);
+
+        throw new Dhl_OnlineRetoure_Exception_OrderValidationException($message);
     }
 
     /**
-     * Check if the request is coming from a logged in customer
-     * or by hash
+     * Check if the request is coming from a logged in customer or from a guest (identified by hash param).
      *
-     * @return string
+     * @return string|null
      */
     public function getRequestType()
     {
-        if (false === is_null(Mage::app()->getRequest()->getParam("hash"))) {
+        if (Mage::app()->getRequest()->getParam("hash") !== null) {
             return self::REQUEST_TYPE_HASH;
-        } elseif (false === is_null(Mage::app()->getRequest()->getParam("order_id"))) {
+        } elseif (Mage::app()->getRequest()->getParam("order_id") !== null) {
             return self::REQUEST_TYPE_INTERNAL;
         } else {
             return null;
@@ -38,7 +46,7 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
     }
 
     /**
-     * Check if it is a hash request
+     * Check if it is a hash request.
      *
      * @return boolean
      */
@@ -48,7 +56,7 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
     }
 
     /**
-     * Check if it is a hash request
+     * Check if it is a logged-in request.
      *
      * @return boolean
      */
@@ -72,6 +80,7 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
         if ($orderId) {
             $query['order_id'] = $orderId;
         }
+
         if ($hash) {
             $query['hash'] = $hash;
         }
@@ -113,35 +122,15 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
     }
 
     /**
-     * Check if module is enabled for frontend display
-     * @return boolean
-     */
-    public function isModuleFrontendEnabled()
-    {
-        return ($this->getConfig()->isEnabled()
-             && $this->isModuleOutputEnabled('Dhl_OnlineRetoure'));
-    }
-
-    /**
-     * Check if order is valid for frontend display
-     * @see Mage_Sales_Controller_Abstract::_canViewOrder
-     * @return boolean
-     */
-    public function isOrderFrontendEnabled(Mage_Sales_Model_Order $order)
-    {
-        $availableStates = Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates();
-        return in_array($order->getState(), $availableStates, $strict = true);
-    }
-
-    /**
-     * Check if the given ISO 3166-2 code is amongst the allowed country codes.
+     * Check if module is enabled for frontend display.
      *
-     * @param string $iso2code
+     * @param Mage_Sales_Model_Order $order
      * @return boolean
      */
-    public function isAllowedCountryCode($iso2code)
+    public function isModuleFrontendEnabled(Mage_Sales_Model_Order $order)
     {
-        return in_array($iso2code, $this->getConfig()->getAllowedCountryCodes());
+        return ($this->getConfig()->isEnabled($order->getStoreId())
+             && $this->isModuleOutputEnabled('Dhl_OnlineRetoure'));
     }
 
     /**
@@ -152,23 +141,7 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
      */
     public function isOrderExisting(Mage_Sales_Model_Order $order)
     {
-        return (($order instanceof Mage_Sales_Model_Order) && !is_null($order->getId()));
-    }
-
-    /**
-     * Check if an order exists in the shop by given order ID.
-     *
-     * @param int $orderId
-     * @return boolean
-     */
-    public function isOrderIdExisting($orderId)
-    {
-        if (!is_numeric($orderId)) {
-            return false;
-        }
-
-        $order = Mage::getModel("sales/order")->load((int) $orderId);
-        return $this->isOrderExisting($order);
+        return ($order->getId() && !$order->isDeleted());
     }
 
     /**
@@ -183,17 +156,17 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
     }
 
     /**
-     * Check if a delivery name was configured for current delivery country.
+     * Check if a receiver ID was configured for current delivery country.
      *
      * @param Mage_Sales_Model_Order $order
      * @return boolean
      */
-    public function isDeliveryNameAvailable(Mage_Sales_Model_Order $order)
+    public function isReceiverIdAvailable(Mage_Sales_Model_Order $order)
     {
-        $deliveryName = $this->getConfig()->getDeliveryNameByCountry(
-            $order->getShippingAddress()->getCountryId()
-        );
-        return ($deliveryName !== '');
+        $countryCode = $order->getShippingAddress()->getCountryId();
+        $receiverId = $this->getConfig()->getReceiverId($countryCode, $order->getStoreId());
+
+        return ($receiverId !== '');
     }
 
     /**
@@ -203,9 +176,10 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
      * @param Mage_Customer_Model_Customer   $customer
      * @return boolean
      */
-    public function isOrderBelongsToCustomer(Mage_Sales_Model_Order $order,
-            Mage_Customer_Model_Customer $customer)
-    {
+    public function isOrderBelongsToCustomer(
+        Mage_Sales_Model_Order $order,
+        Mage_Customer_Model_Customer $customer
+    ) {
         return ($order->getCustomerId() === $customer->getId());
     }
 
@@ -214,23 +188,25 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
      * We don't throw Exceptions in here because this function is maybe used in layout.xml
      * and we cannot catch Exceptions there
      *
-     * @return boolean
+     * @param Mage_Sales_Model_Order $order
+     * @return bool
      */
     public function canShowRetoureLink(Mage_Sales_Model_Order $order)
     {
-        if (!$this->isModuleFrontendEnabled()) {
+        if (!$this->isModuleFrontendEnabled($order)) {
             return false;
         }
 
-        // We show the reture link only for internal requests
+        // We show the retoure link only for internal requests
         if (!$this->isInternalRequest()) {
             return false;
         }
 
-        $canShow = false;
         try {
             $canShow = $this->isCustomerValid($order) && $this->isOrderValid($order);
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+            $canShow = false;
+        }
 
         return $canShow;
     }
@@ -261,19 +237,17 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
      *
      * @param string $hash
      * @param Mage_Sales_Model_Order $order
-     * @throws Dhl_OnlineRetoure_Model_Validate_Exception
+     * @throws Dhl_OnlineRetoure_Exception_OrderValidationException
      * @return boolean
      */
     public function isHashValid($hash, Mage_Sales_Model_Order $order)
     {
-        $errorMessage = '';
-
         //Calculate internal hash by given order_id
-        $caluclatedHash = $this->createHashForOrder($order);
+        $calculatedHash = $this->createHashForOrder($order);
 
         //Check if hash is valid
-        if ($hash !== $caluclatedHash) {
-            $this->log(sprintf("Hash mismatch:\n  %s (calculated)\n  %s (given)", $caluclatedHash, $hash));
+        if ($hash !== $calculatedHash) {
+            $this->log(sprintf("Hash mismatch:\n  %s (calculated)\n  %s (given)", $calculatedHash, $hash));
             $errorMessage = 'You are not allowed to create a return for the current order.';
             self::throwException(Mage::helper("dhlonlineretoure/data")->__($errorMessage));
         } else {
@@ -287,7 +261,7 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
      * Check if the currently logged in customer can view the order.
      *
      * @param Mage_Sales_Model_Order $order
-     * @throws Mage_Core_Exception
+     * @throws Dhl_OnlineRetoure_Exception_OrderValidationException
      * @return boolean
      */
     public function isCustomerValid(Mage_Sales_Model_Order $order)
@@ -312,7 +286,7 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
      * Check if a return can be created for the order.
      *
      * @param Mage_Sales_Model_Order $order
-     * @throws Dhl_OnlineRetoure_Model_Validate_Exception
+     * @throws Dhl_OnlineRetoure_Exception_OrderValidationException
      * @return boolean
      */
     public function isOrderValid(Mage_Sales_Model_Order $order)
@@ -322,9 +296,12 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
             $errorMessage = 'The requested order does not exist.';
         } elseif (!$this->isOrderHasShipments($order)) {
             $errorMessage = 'Your shipment was not sent yet. Because of this no return label can be created currently.';
-        } elseif (!$this->isDeliveryNameAvailable($order)) {
+        } elseif (!$this->isReceiverIdAvailable($order)) {
             $errorMessage = 'DHL Online Return is not available for your country.';
-        } elseif (!Mage::getModel("dhlonlineretoure/config")->isAllowedShippingMethod($order->getShippingMethod())) {
+        } elseif (!Mage::getModel("dhlonlineretoure/config")->isAllowedShippingMethod(
+            $order->getShippingMethod(),
+            $order->getStoreId()
+        )) {
             $errorMessage = 'DHL Online Return is not available for your shipping method.';
         }
 
@@ -339,16 +316,15 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
      * Check if a return can be created for the order.
      *
      * @param int $orderId
-     * @throws Dhl_OnlineRetoure_Model_Validate_Exception
+     * @throws Dhl_OnlineRetoure_Exception_OrderValidationException
      * @return boolean
      */
     public function isOrderIdValid($orderId)
     {
-        if (true === is_null($orderId) || 0 === $orderId) {
-            self::throwException(
-                Mage::helper("dhlonlineretoure/data")->__("No order id was given.")
-            );
+        if (!$orderId) {
+            self::throwException(Mage::helper("dhlonlineretoure/data")->__("No order ID was given."));
         }
+
         return true;
     }
 }

@@ -2,16 +2,16 @@
 /**
  * See LICENSE.md for license details.
  */
+
 use Dhl_OnlineRetoure_Model_Rest_Request_SimpleAddress as SenderAddress;
 use Dhl_OnlineRetoure_Model_Rest_Request_CustomsDocument as CustomsDocument;
 
 /**
  * Class Dhl_OnlineRetoure_Model_Rest_Request_ReturnOrder
  *
- * @category Dhl
- * @package  Dhl_OnlineRetoure
- * @author   Sebastian Ertner <sebastian.ertner@netresearch.de>
- * @link     https://www.netresearch.de/
+ * @package Dhl_OnlineRetoure
+ * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_Rest_Request_ReturnOrder implements JsonSerializable
 {
@@ -70,6 +70,6 @@ class Dhl_OnlineRetoure_Model_Rest_Request_ReturnOrder implements JsonSerializab
      */
     public function jsonSerialize()
     {
-       return get_object_vars($this);
+        return array_filter(get_object_vars($this));
     }
 }

@@ -55,7 +55,7 @@ Server
 ------
 
 - Auf dem Server muss PHP 5.5 oder höher installiert sein.
-- Die PHP SOAP-Extension muss installiert und aktiviert sein.
+- Die PHP Extensions JSON und GD müssen installiert und aktiviert sein.
 
 Hinweise zur Verwendung der Extension
 ========================================
@@ -160,15 +160,11 @@ Retouren Block
 Um den Block zur Erstellung der Retouren-Labels in die Transaktions-E-Mails einzubinden,
 muss folgender Code in die E-Mail-Templates von Magento® eingebunden werden:
 
- {{block type='dhlonlineretoure/sales_order_email_retoure'
-     area='frontend'
-     template='dhl_onlineretoure/sales/order/email/retoure.phtml'
-     order=$order}}
 ::
 
   {{block type='dhlonlineretoure/sales_order_email_retoure'
     area='frontend'
-    template='dhlonlineretoure/sales/order/email/retoure.phtml'
+    template='dhl_onlineretoure/sales/order/email/retoure.phtml'
     order=$order}}
 
 Eine geeignete Position wäre z.B. unter den Versand-Informationen.
