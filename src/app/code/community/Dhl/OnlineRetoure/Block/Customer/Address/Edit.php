@@ -132,6 +132,7 @@ class Dhl_OnlineRetoure_Block_Customer_Address_Edit extends Mage_Directory_Block
         try {
             return $this->getRequest()->getQuery('hash', '');
         } catch (Exception $exception) {
+            Mage::helper('dhlonlineretoure/data')->log($exception->getMessage());
             return '';
         }
     }

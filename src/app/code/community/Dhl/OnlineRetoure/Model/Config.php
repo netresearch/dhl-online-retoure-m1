@@ -80,10 +80,10 @@ class Dhl_OnlineRetoure_Model_Config
     public function getEndpoint($store = null)
     {
         if ($this->isSandboxModeEnabled($store)) {
-            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_ENDPOINT);
+            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_ENDPOINT, $store);
         }
 
-        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_ENDPOINT);
+        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_ENDPOINT, $store);
     }
 
     /**
@@ -97,10 +97,10 @@ class Dhl_OnlineRetoure_Model_Config
     public function getWebserviceAuthUsername($store = null)
     {
         if ($this->isSandboxModeEnabled($store)) {
-            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_AUTH_USERNAME);
+            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_AUTH_USERNAME, $store);
         }
 
-        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_AUTH_USERNAME);
+        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_AUTH_USERNAME, $store);
     }
 
     /**
@@ -114,10 +114,10 @@ class Dhl_OnlineRetoure_Model_Config
     public function getWebserviceAuthPassword($store = null)
     {
         if ($this->isSandboxModeEnabled($store)) {
-            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_AUTH_PASSWORD);
+            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_AUTH_PASSWORD, $store);
         }
 
-        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_AUTH_PASSWORD);
+        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_AUTH_PASSWORD, $store);
     }
 
     /**
@@ -129,10 +129,10 @@ class Dhl_OnlineRetoure_Model_Config
     public function getUser($store = null)
     {
         if ($this->isSandboxModeEnabled($store)) {
-            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_USER_NAME);
+            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_USER_NAME, $store);
         }
 
-        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_USER_NAME);
+        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_USER_NAME, $store);
     }
 
     /**
@@ -144,10 +144,10 @@ class Dhl_OnlineRetoure_Model_Config
     public function getSignature($store = null)
     {
         if ($this->isSandboxModeEnabled($store)) {
-            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_USER_PASSWORD);
+            return Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_USER_PASSWORD, $store);
         }
 
-        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_USER_PASSWORD);
+        return Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_USER_PASSWORD, $store);
     }
 
     /**
@@ -162,9 +162,9 @@ class Dhl_OnlineRetoure_Model_Config
     public function getReceiverId($countryCode, $store = null)
     {
         if ($this->isSandboxModeEnabled($store)) {
-            $receiverIds = Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_RECEIVER_ID);
+            $receiverIds = Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_RECEIVER_ID, $store);
         } else {
-            $receiverIds = Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_RECEIVER_ID);
+            $receiverIds = Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_RECEIVER_ID, $store);
         }
 
         if (!is_array($receiverIds) || empty($countryCode)) {
@@ -186,11 +186,11 @@ class Dhl_OnlineRetoure_Model_Config
     public function getBillingNumber($shipperCountry, $store = null)
     {
         if ($this->isSandboxModeEnabled($store)) {
-            $ekp = Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_EKP);
-            $participationNumbers = Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_PARTICIPATION);
+            $ekp = Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_EKP, $store);
+            $participationNumbers = Mage::getStoreConfig(self::CONFIG_PATH_SANDBOX_PARTICIPATION, $store);
         } else {
-            $ekp = Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_EKP);
-            $participationNumbers = Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_PARTICIPATION);
+            $ekp = Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_EKP, $store);
+            $participationNumbers = Mage::getStoreConfig(self::CONFIG_PATH_PRODUCTION_PARTICIPATION, $store);
         }
 
         if ($shipperCountry === 'DE') {
@@ -243,7 +243,7 @@ class Dhl_OnlineRetoure_Model_Config
     public function getAllowedShippingMethods($store = null)
     {
         $originalMethods = Mage::getStoreConfig('shipping/dhlonlineretoure/allowed_shipping_methods', $store);
-        $originalMethods = explode(",", $originalMethods);
+        $originalMethods = explode(',', $originalMethods);
 
         $dhlMethods = array_map(
             function ($shippingMethod) {

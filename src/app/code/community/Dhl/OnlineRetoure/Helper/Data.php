@@ -106,10 +106,42 @@ class Dhl_OnlineRetoure_Helper_Data extends Mage_Core_Helper_Data
      */
     public function log($message, $level=null, $force=false)
     {
-        if (Mage::getStoreConfig('shipping/dhlonlineretoure/logging_enabled')) {
+        if ($this->getConfig()->isLoggingEnabled()) {
             $logfile = 'dhl_retoure.log';
             Mage::log($message, $level, $logfile, $force);
         }
+
+        return $this;
+    }
+
+
+    /**
+     * Log request to a separate log file
+     *
+     * @param string $requestData
+     * @param int $level
+     * @param bool $force
+     * @return Dhl_OnlineRetoure_Helper_Data
+     */
+    public function logRequest($requestData, $level = null, $force = false)
+    {
+        $msg = ("********** Request ********** \n" . $requestData);
+        $this->log($msg, $level, $force);
+        return $this;
+    }
+
+    /**
+     * Log response to a separate log file
+     *
+     * @param string $responseData
+     * @param int    $level
+     * @param bool   $force
+     * @return Dhl_OnlineRetoure_Helper_Data
+     */
+    public function logResponse($responseData, $level = null, $force = false)
+    {
+        $msg = ("********** Response ********** \n" . $responseData);
+        $this->log($msg, $level, $force);
 
         return $this;
     }

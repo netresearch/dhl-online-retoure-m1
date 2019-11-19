@@ -37,7 +37,6 @@ class Dhl_OnlineRetoure_Model_Return_Item extends Varien_Object
      */
     protected $qty = 0;
 
-
     /**
      * @var string[]
      */

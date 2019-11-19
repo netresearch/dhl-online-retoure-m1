@@ -75,7 +75,7 @@ class Dhl_OnlineRetoure_LabelController extends Dhl_OnlineRetoure_Controller_Abs
     }
 
     /**
-     * @return void
+     * @throws Exception
      */
     public function formPostAction()
     {
@@ -94,7 +94,7 @@ class Dhl_OnlineRetoure_LabelController extends Dhl_OnlineRetoure_Controller_Abs
             return;
         } catch (\Exception $exception) {
             // other error occurred
-            $helper->log($exception->getMessage());
+            $helper->log($exception->getMessage(), Zend_Log::ERR);
             $msg = $helper->__('An error occurred while retrieving the return label. Please contact customer support.');
             Mage::getSingleton('core/session')->addError($msg);
 
@@ -110,19 +110,20 @@ class Dhl_OnlineRetoure_LabelController extends Dhl_OnlineRetoure_Controller_Abs
         $returnItems = $this->getRequest()->getParam('returns');
         $returnItems = $this->filterItems($returnItems);
 
+        /** @var Dhl_OnlineRetoure_Model_Rest_RequestBuilder $requestBuilder */
         $requestBuilder = Mage::getSingleton('dhlonlineretoure/rest_requestBuilder');
         $requestBuilder->setOrder($order);
         $requestBuilder->setReturnInformation($returnItems);
 
+        /** @var Dhl_OnlineRetoure_Model_Rest_Client $restClient */
+        $restClient = Mage::getModel('dhlonlineretoure/rest_client');
+
         try {
             // build and send web service request
             $request = $requestBuilder->build();
-            $response = Mage::getModel('dhlonlineretoure/rest_client')->getReturnLabel($request);
+            $response = $restClient->getReturnLabel($request);
         } catch (ValidationException $exception) {
-            // web service request could not be built
-            $helper->log($exception->getMessage());
             Mage::getSingleton('core/session')->addError($exception->getMessage());
-
             $params = $helper->getUrlParams($orderId, $hash);
             $this->_redirectError(Mage::getUrl('*/create/index', $params));
             return;
@@ -130,12 +131,6 @@ class Dhl_OnlineRetoure_LabelController extends Dhl_OnlineRetoure_Controller_Abs
             // web service communication did not succeed
             $msg = $helper->__('An error occurred while retrieving the return label. Please contact customer support.');
             Mage::getSingleton('core/session')->addError($msg);
-
-            $msg = 'An error occurred during return label request: ' . $exception->getMessage();
-            $helper->log($msg, Zend_Log::ERR);
-
-            $helper->logFailure();
-
             $params = $helper->getUrlParams($orderId, $hash);
             $this->_redirectError(Mage::getUrl('*/create/index', $params));
             return;
@@ -158,7 +153,5 @@ class Dhl_OnlineRetoure_LabelController extends Dhl_OnlineRetoure_Controller_Abs
         $history = $order->addStatusHistoryComment($comment);
         $history->setIsVisibleOnFront(true);
         $history->save();
-
-        $helper->logSuccess();
     }
 }

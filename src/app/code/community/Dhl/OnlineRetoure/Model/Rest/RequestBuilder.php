@@ -105,7 +105,6 @@ class Dhl_OnlineRetoure_Model_Rest_RequestBuilder
     private function getPositions()
     {
         $result = array();
-
         foreach ($this->getShippedItems() as $item) {
             $position = new Dhl_OnlineRetoure_Model_Rest_Request_CustomsDocumentPosition();
             $position->positionDescription = $item->getName();

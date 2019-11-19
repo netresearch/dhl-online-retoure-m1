@@ -27,7 +27,7 @@
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </active>
                         <logging_enabled translate="label comment" module="dhlonlineretoure">
                             <label>Enable Logging</label>
@@ -35,8 +35,8 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                         </logging_enabled>
                         <sandbox_mode>
                             <label>Sandbox Mode</label>
@@ -46,7 +46,7 @@
                             <sort_order>200</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </sandbox_mode>
                         <production_user>
                             <label>User</label>
@@ -56,7 +56,7 @@
                             <validate>required-entry</validate>
                             <sort_order>210</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
+                            <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
                                 <sandbox_mode>0</sandbox_mode>
@@ -70,7 +70,7 @@
                             <validate>required-entry</validate>
                             <sort_order>220</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
+                            <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
                                 <sandbox_mode>0</sandbox_mode>
@@ -84,7 +84,7 @@
                             <validate>required-entry validate-length minimum-length-10 maximum-length-10</validate>
                             <sort_order>230</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
+                            <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
                                 <sandbox_mode>0</sandbox_mode>
@@ -98,7 +98,7 @@
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
                             <sort_order>240</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
+                            <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
                                 <sandbox_mode>0</sandbox_mode>
@@ -110,7 +110,7 @@
                             <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
                             <sort_order>250</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
+                            <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
                                 <sandbox_mode>0</sandbox_mode>
@@ -143,7 +143,7 @@
                             <sort_order>320</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </allowed_shipping_methods>
                     </fields>
                 </dhlonlineretoure>

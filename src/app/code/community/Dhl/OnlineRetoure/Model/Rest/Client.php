@@ -73,13 +73,23 @@ class Dhl_OnlineRetoure_Model_Rest_Client extends Varien_Http_Client
         $this->setUri($uri);
         $this->setRawData(json_encode($request));
 
-        $response = $this->request();
+        $this->_dataHelper->logRequest(json_encode($request));
+
+        try {
+            $response = $this->request();
+        } catch (Zend_Http_Client_Exception $e) {
+            $this->_dataHelper->log('Client Exception: ' . $e->getMessage(), Zend_Log::ERR);
+            throw $e;
+        }
+
         $responseBody = $response->getBody();
+        $this->_dataHelper->logResponse($responseBody);
 
         if ($response->isError()) {
             if ($response->getHeader('Content-Type') === 'application/json') {
                 $error = json_decode($responseBody, true);
                 if (isset($error['detail'])) {
+                    $this->_dataHelper->logResponse($responseBody);
                     throw new ValidationException($error['detail']);
                 }
             }

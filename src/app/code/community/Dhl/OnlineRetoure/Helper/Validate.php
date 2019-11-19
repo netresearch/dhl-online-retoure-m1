@@ -111,16 +111,6 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
         $this->log($message, $isSuccess ? Zend_Log::INFO : Zend_Log::DEBUG);
     }
 
-    public function logSuccess()
-    {
-        $this->logRequestResult(true);
-    }
-
-    public function logFailure()
-    {
-        $this->logRequestResult(false);
-    }
-
     /**
      * Check if module is enabled for frontend display.
      *
@@ -205,6 +195,10 @@ class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data
         try {
             $canShow = $this->isCustomerValid($order) && $this->isOrderValid($order);
         } catch (Exception $e) {
+            $this->log(
+                sprintf('Retoure link can not be shown for this order: %s', $e->getMessage()),
+                Zend_Log::INFO
+            );
             $canShow = false;
         }
 
