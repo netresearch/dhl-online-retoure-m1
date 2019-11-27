@@ -48,6 +48,17 @@
                 </Dhl_OnlineRetoure>
             </modules>
         </translate>
+        <events>
+            <controller_action_layout_render_before_adminhtml_sales_order_view>
+                <observers>
+                    <add_retoure_button>
+                        <type>singleton</type>
+                        <class>Dhl_OnlineRetoure_Model_Observer</class>
+                        <method>addReturnShipmentLabelButton</method>
+                    </add_retoure_button>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_sales_order_view>
+        </events>
     </adminhtml>
     <frontend>
         <translate>
