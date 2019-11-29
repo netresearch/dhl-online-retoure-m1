@@ -32,7 +32,7 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_ReceiverId
             $sourceModel = Mage::getModel('adminhtml/system_config_source_country');
 
             $this->_templateRenderer = $this->getLayout()->createBlock(
-                'adminhtml/html_select',
+                'dhlonlineretoure/adminhtml_form_field_selects_select',
                 '',
                 array(
                     'is_render_to_js_template' => true,
@@ -40,7 +40,6 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_ReceiverId
                     'title' => Mage::helper('dhlonlineretoure/data')->__('Select Country'),
                 )
             );
-
             $this->_templateRenderer->setOptions($sourceModel->toOptionArray());
         }
 

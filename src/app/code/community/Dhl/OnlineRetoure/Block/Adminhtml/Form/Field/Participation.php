@@ -32,7 +32,7 @@ class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation
             $sourceModel = Mage::getModel('dhlonlineretoure/adminhtml_system_config_source_procedure');
 
             $this->_templateRenderer = $this->getLayout()->createBlock(
-                'adminhtml/html_select',
+                'dhlonlineretoure/adminhtml_form_field_selects_select',
                 '',
                 array(
                     'is_render_to_js_template' => true,
