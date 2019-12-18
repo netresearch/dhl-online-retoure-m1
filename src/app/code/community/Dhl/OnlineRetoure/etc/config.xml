@@ -111,8 +111,9 @@
                 </sandbox_participation>
 
                 <production_endpoint>https://cig.dhl.de/services/production/rest</production_endpoint>
-                <production_auth_username>NRMAG_2</production_auth_username>
-                <production_auth_password>ivVTCAke61I6cTTilV1eBltp2rvSQb</production_auth_password>
+                <production_auth_username>M1_SHIPPING_1</production_auth_username>
+                <production_auth_password>3hhwlgGytdblXrkVqNnXEjrdj1mEIs</production_auth_password>
+                <production_signature backend_model="adminhtml/system_config_backend_encrypted"/>
                 <production_receiver_id backend_model="adminhtml/system_config_backend_serialized_array"/>
                 <production_participation backend_model="adminhtml/system_config_backend_serialized_array"/>
 
