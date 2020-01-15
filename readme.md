@@ -9,7 +9,7 @@ Facts
 - version: 2.0.0
 - extension key: Dhl_OnlineRetoure
 - [extension on GitLab](https://git.netresearch.de/dhl/online-retoure-m1)
-- [direct download link](https://git.netresearch.de/dhl/online-retoure-m1/repository/1.0.1/archive.tar.gz)
+- [direct download link](https://git.netresearch.de/dhl/online-retoure-m1/repository/2.0.0/archive.tar.gz)
 
 Description
 -----------
