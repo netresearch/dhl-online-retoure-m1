@@ -9,7 +9,6 @@ use Dhl_OnlineRetoure_Exception_RequestValidationException as ValidationExceptio
  * Class Dhl_OnlineRetoure_Model_Rest_Client
  *
  * @package Dhl_OnlineRetoure
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_Rest_Client extends Varien_Http_Client

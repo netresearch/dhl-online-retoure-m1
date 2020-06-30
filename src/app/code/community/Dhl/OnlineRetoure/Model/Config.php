@@ -9,8 +9,6 @@ use Dhl_OnlineRetoure_Model_Adminhtml_System_Config_Source_Procedure as Procedur
  * DHL OnlineRetoure Config Model
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_Config

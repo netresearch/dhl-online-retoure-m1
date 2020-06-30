@@ -7,7 +7,6 @@
  * Dhl_OnlineRetoure_Helper_Data
  *
  * @package Dhl_OnlineRetoure
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Helper_Customer_Address extends Mage_Core_Helper_Abstract

@@ -20,6 +20,10 @@
     <?php echo $this->getChildHtml('dhlreturn') ?>
     <?php // END MAGENTO CE 1.5 SPECIAL HANDLING ?>
     </div>
+    <?php // MAGENTO CE 1.5 SPECIAL HANDLING: ?>
+    <?php echo $this->getChildHtml('dhlreturntrack') ?>
+    <?php // END MAGENTO CE 1.5 SPECIAL HANDLING ?>
+    </div>
 <?php echo $this->getStatusHistoryRssUrl($_order) ?>
 <dl class="order-info">
     <dt><?php echo $this->__('About This Order:') ?></dt>

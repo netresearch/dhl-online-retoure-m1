@@ -2,22 +2,29 @@
 <!--
 /**
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 -->
 <config>
     <modules>
         <Dhl_OnlineRetoure>
-            <version>2.0.0</version>
+            <version>2.0.1</version>
         </Dhl_OnlineRetoure>
     </modules>
     <global>
         <models>
             <dhlonlineretoure>
                 <class>Dhl_OnlineRetoure_Model</class>
+                <resourceModel>dhlonlineretoure_resource</resourceModel>
             </dhlonlineretoure>
+            <dhlonlineretoure_resource>
+                <class>Dhl_OnlineRetoure_Model_Resource</class>
+                <entities>
+                    <track>
+                        <table>dhlonlineretoure_track</table>
+                    </track>
+                </entities>
+            </dhlonlineretoure_resource>
         </models>
         <helpers>
             <dhlonlineretoure>
@@ -100,10 +107,10 @@
                 <sandbox_endpoint>https://cig.dhl.de/services/sandbox/rest</sandbox_endpoint>
                 <sandbox_auth_username>magento_1</sandbox_auth_username>
                 <sandbox_auth_password>2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f</sandbox_auth_password>
-                <sandbox_user>2222222222_Customer</sandbox_user>
+                <sandbox_user>2222222222_customer</sandbox_user>
                 <sandbox_signature>uBQbZ62!ZiBiVVbhc</sandbox_signature>
                 <sandbox_receiver_id backend_model="adminhtml/system_config_backend_serialized_array">
-                    <![CDATA[a:17:{s:18:"_1485789382230_100";a:2:{s:3:"iso";s:2:"DE";s:4:"name";s:2:"DE";}s:18:"_1485789382230_101";a:2:{s:3:"iso";s:2:"BE";s:4:"name";s:2:"BE";}s:18:"_1485789382230_102";a:2:{s:3:"iso";s:2:"BG";s:4:"name";s:2:"BG";}s:18:"_1485789382230_103";a:2:{s:3:"iso";s:2:"EE";s:4:"name";s:2:"EE";}s:18:"_1485789382230_104";a:2:{s:3:"iso";s:2:"FI";s:4:"name";s:2:"FI";}s:18:"_1485789382230_105";a:2:{s:3:"iso";s:2:"FR";s:4:"name";s:2:"FR";}s:18:"_1485789382230_106";a:2:{s:3:"iso";s:2:"IE";s:4:"name";s:2:"IE";}s:18:"_1485789382230_107";a:2:{s:3:"iso";s:2:"IT";s:4:"name";s:2:"IT";}s:18:"_1485789382230_108";a:2:{s:3:"iso";s:2:"HR";s:4:"name";s:2:"HR";}s:18:"_1485789382230_109";a:2:{s:3:"iso";s:2:"NL";s:4:"name";s:2:"NL";}s:18:"_1485789382230_110";a:2:{s:3:"iso";s:2:"LT";s:4:"name";s:2:"LV";}s:18:"_1485789382230_111";a:2:{s:3:"iso";s:2:"AT";s:4:"name";s:2:"AT";}s:18:"_1485789382230_112";a:2:{s:3:"iso";s:2:"PL";s:4:"name";s:2:"PL";}s:18:"_1485789382230_113";a:2:{s:3:"iso";s:2:"SE";s:4:"name";s:2:"SE";}s:18:"_1485789382230_114";a:2:{s:3:"iso";s:2:"CH";s:4:"name";s:2:"CH";}s:18:"_1485789382230_115";a:2:{s:3:"iso";s:2:"HU";s:4:"name";s:2:"HU";}s:18:"_1485789382230_116";a:2:{s:3:"iso";s:2:"GB";s:4:"name";s:2:"UK";}}]]>
+                    <![CDATA[a:17:{s:18:"_1485789382230_100";a:2:{s:3:"iso";s:2:"DE";s:4:"name";s:3:"deu";}s:18:"_1485789382230_101";a:2:{s:3:"iso";s:2:"BE";s:4:"name";s:3:"bel";}s:18:"_1485789382230_102";a:2:{s:3:"iso";s:2:"BG";s:4:"name";s:3:"bgr";}s:18:"_1485789382230_103";a:2:{s:3:"iso";s:2:"EE";s:4:"name";s:3:"est";}s:18:"_1485789382230_104";a:2:{s:3:"iso";s:2:"FI";s:4:"name";s:3:"fin";}s:18:"_1485789382230_105";a:2:{s:3:"iso";s:2:"FR";s:4:"name";s:3:"fra";}s:18:"_1485789382230_106";a:2:{s:3:"iso";s:2:"IE";s:4:"name";s:3:"irl";}s:18:"_1485789382230_107";a:2:{s:3:"iso";s:2:"IT";s:4:"name";s:3:"ita";}s:18:"_1485789382230_108";a:2:{s:3:"iso";s:2:"HR";s:4:"name";s:3:"hun";}s:18:"_1485789382230_109";a:2:{s:3:"iso";s:2:"NL";s:4:"name";s:3:"nld";}s:18:"_1485789382230_110";a:2:{s:3:"iso";s:2:"LT";s:4:"name";s:3:"lva";}s:18:"_1485789382230_111";a:2:{s:3:"iso";s:2:"AT";s:4:"name";s:3:"aut";}s:18:"_1485789382230_112";a:2:{s:3:"iso";s:2:"PL";s:4:"name";s:3:"pol";}s:18:"_1485789382230_113";a:2:{s:3:"iso";s:2:"SE";s:4:"name";s:3:"swe";}s:18:"_1485789382230_114";a:2:{s:3:"iso";s:2:"CH";s:4:"name";s:3:"che";}s:18:"_1485789382230_115";a:2:{s:3:"iso";s:2:"HU";s:4:"name";s:3:"hun";}s:18:"_1485789382230_116";a:2:{s:3:"iso";s:2:"GB";s:4:"name";s:3:"gbr";}}]]>
                 </sandbox_receiver_id>
                 <sandbox_ekp>2222222222</sandbox_ekp>
                 <sandbox_participation backend_model="adminhtml/system_config_backend_serialized_array">

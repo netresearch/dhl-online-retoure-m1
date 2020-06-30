@@ -7,8 +7,6 @@
  * DHL OnlineRetoure Allowed shipping methods for email return block
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_System_Config_Source_Shipping_Methods

@@ -10,8 +10,6 @@ use Dhl_OnlineRetoure_Exception_RequestValidationException as ValidationExceptio
  * Dhl OnlineRetoure label controller
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_LabelController extends Dhl_OnlineRetoure_Controller_Abstract
@@ -142,16 +140,47 @@ class Dhl_OnlineRetoure_LabelController extends Dhl_OnlineRetoure_Controller_Abs
         $filename = $labelGenerator->getFilename($order, $response['shipmentNumber']);
 
         $this->_prepareDownloadResponse($filename, $labelData, 'application/pdf');
-
         // add entry to order comments
         $comment = $this->__(
             'Return label with shipment number %s successfully created on %s.',
             $response['shipmentNumber'],
             Mage::getSingleton('core/date')->date()
         );
+        $this->addOrderComment($order, $comment, true);
+
+        $trackComment = $this->addRetoureTracking($orderId, (int)$response['shipmentNumber']);
+        $this->addOrderComment($order, $trackComment);
+    }
+
+    /**
+     * @param int $orderId
+     * @param int $shipmentId
+     * @return string
+     * @throws Exception
+     */
+    private function addRetoureTracking($orderId, $shipmentId)
+    {
+        $trackModel = Mage::getModel("dhlonlineretoure/track");
+        $trackModel->setOrderId($orderId);
+        $trackModel->setShipmentNumber($shipmentId);
+        $trackModel->save();
+        $url = Dhl_OnlineRetoure_Model_Track::TRACKING_URL . $shipmentId;
+        $comment = $this->__('Track Return #<a href="%s">%s</a>', $url, $shipmentId);
+
+        return $comment;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @param string $comment
+     * @param bool $isVisible
+     * @throws Exception
+     */
+    private function addOrderComment($order, $comment, $isVisible = false)
+    {
         /** @var Mage_Sales_Model_Order_Status_History $history */
         $history = $order->addStatusHistoryComment($comment);
-        $history->setIsVisibleOnFront(true);
+        $history->setIsVisibleOnFront($isVisible);
         $history->save();
     }
 }

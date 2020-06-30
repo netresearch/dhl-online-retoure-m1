@@ -7,7 +7,6 @@
  * Class Select
  *
  * @package Dhl_OnlineRetoure
- * @author    Andreas Müller <andreas.mueller@netresearch.de>
  * @link      https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Selects_Select

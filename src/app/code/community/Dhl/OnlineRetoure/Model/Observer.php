@@ -6,7 +6,6 @@
 /**
  * Class Dhl_OnlineRetoure_Model_Adminhtml_Observer
  *
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_Observer

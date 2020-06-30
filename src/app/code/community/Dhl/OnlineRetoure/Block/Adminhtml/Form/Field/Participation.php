@@ -9,7 +9,6 @@
  * @see template/system/config/form/field/array.phtml
  *
  * @package Dhl_OnlineRetoure
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_Participation

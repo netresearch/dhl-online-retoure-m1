@@ -39,6 +39,8 @@
 "SKU","SKU"
 "The requested order does not exist.","The requested order does not exist."
 "The web service request failed with the following error message: ""%s""", "The web service request failed with the following error message: ""%s"""
+"Track Return","Track Return"
+"Track Return <a href=""%s"">#%s</a>","Track Return <a href=""%s"">#%s</a>"
 "User","User"
 "Verify Shipping Address","Verify Shipping Address"
 "Weight Unit","Weight Unit"

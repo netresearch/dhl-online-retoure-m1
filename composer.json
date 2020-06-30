@@ -18,8 +18,10 @@
     },
     "authors":[
         {
-            "name":"Christoph Aßmann",
-            "email":"christoph.assmann@netresearch.de"
+            "email":"plugins@netresearch.de",
+            "name":"Netresearch DTT GmbH",
+            "role":"Manufacturer",
+            "homepage":"https://www.netresearch.de/"
         }
     ]
 }

@@ -7,7 +7,6 @@
  * DHL OnlineRetoure return item model.
  *
  * @package Dhl_OnlineRetoure
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_Return_Item extends Varien_Object

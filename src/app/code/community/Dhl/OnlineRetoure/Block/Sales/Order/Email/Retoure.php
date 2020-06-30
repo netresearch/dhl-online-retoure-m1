@@ -7,7 +7,6 @@
  * Dhl_OnlineRetoure_Block_Sales_Order_Email_Retoure
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Block_Sales_Order_Email_Retoure extends Mage_Core_Block_Template

@@ -24,3 +24,12 @@
     -webkit-appearance: none;
     margin: 0;
 }
+
+.customer-account .title-buttons .return-link {
+    display: block;
+    text-align: left;
+    padding: 10px 0 0 0;
+    width: -moz-fit-content;
+    width: fit-content;
+}
+

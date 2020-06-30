@@ -39,6 +39,8 @@
 "SKU","Artikelnummer"
 "The requested order does not exist.","Die Bestellung existiert nicht."
 "The web service request failed with the following error message: ""%s""", "Die Webservice-Anfrage schlug mit der folgenden Meldung fehl: ""%s"""
+"Track Return","Rücksendung verfolgen"
+"Track Return #<a href=""%s"">%s</a>","Rücksendung verfolgen Nr: <a href=""%s"">%s</a>"
 "User","Benutzer"
 "Verify Shipping Address","Versandadresse prüfen"
 "Weight Unit","Gewichtseinheit"

@@ -9,8 +9,6 @@
  * @see template/system/config/form/field/array.phtml
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Block_Adminhtml_Form_Field_ReceiverId

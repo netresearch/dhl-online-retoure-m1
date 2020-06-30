@@ -7,7 +7,6 @@
  * Dhl_OnlineRetoure_Helper_Validate
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Helper_Validate extends Dhl_OnlineRetoure_Helper_Data

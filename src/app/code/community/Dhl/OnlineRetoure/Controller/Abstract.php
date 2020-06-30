@@ -7,7 +7,6 @@
  * Dhl_OnlineRetoure_Controller_Abstract
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Controller_Abstract extends Mage_Core_Controller_Front_Action

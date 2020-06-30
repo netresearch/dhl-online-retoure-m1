@@ -1,0 +1,13 @@
+<?php
+/**
+ * See LICENSE.md for license details.
+ */
+?>
+<?php
+    /* @var $this Dhl_OnlineRetoure_Block_Sales_Order_Info_Buttons_Track */
+    $_order = $this->getOrder();
+    $_returnTrackUrl = $this->getReturnTrackUrl($_order);
+?>
+<?php if ($_returnTrackUrl): ?>
+    <a href="<?php echo $_returnTrackUrl ?>" class="return-link" target="_blank"><?php echo $this->__('Track Return') ?></a>
+<?php endif; ?>

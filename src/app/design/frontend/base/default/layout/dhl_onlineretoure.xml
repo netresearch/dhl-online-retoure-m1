@@ -43,21 +43,43 @@
     </dhlonlineretoure_create_index>
 
     <sales_order_view>
+        <reference name="head">
+            <action method="addItem" ifconfig="shipping/dhlonlineretoure/active">
+                <type>skin_css</type>
+                <script>css/dhl_onlineretoure/styles.css</script>
+            </action>
+        </reference>
         <reference name="sales.order.info.buttons">
             <block type="dhlonlineretoure/sales_order_info_buttons_return"
                    name="dhlonlineretoure.sales.order.info.buttons.return"
                    as="dhlreturn"
                    template="dhl_onlineretoure/sales/order/info/buttons/return.phtml"
             />
+            <block type="dhlonlineretoure/sales_order_info_buttons_track"
+                   name="dhlonlineretoure.sales.order.info.buttons.track"
+                   as="dhlreturntrack"
+                   template="dhl_onlineretoure/sales/order/info/buttons/track.phtml"
+            />
         </reference>
     </sales_order_view>
 
     <sales_order_shipment>
+        <reference name="head">
+            <action method="addItem" ifconfig="shipping/dhlonlineretoure/active">
+                <type>skin_css</type>
+                <script>css/dhl_onlineretoure/styles.css</script>
+            </action>
+        </reference>
         <reference name="sales.order.info.buttons">
             <block type="dhlonlineretoure/sales_order_info_buttons_return"
                    name="dhlonlineretoure.sales.order.info.buttons.return"
                    as="dhlreturn"
                    template="dhl_onlineretoure/sales/order/info/buttons/return.phtml"
+            />
+            <block type="dhlonlineretoure/sales_order_info_buttons_track"
+                   name="dhlonlineretoure.sales.order.info.buttons.track"
+                   as="dhlreturntrack"
+                   template="dhl_onlineretoure/sales/order/info/buttons/track.phtml"
             />
         </reference>
     </sales_order_shipment>

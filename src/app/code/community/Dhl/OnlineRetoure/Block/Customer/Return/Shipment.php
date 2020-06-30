@@ -7,7 +7,6 @@
  * DHL OnlineRetoure shipping address return item form
  *
  * @package Dhl_OnlineRetoure
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Block_Customer_Return_Shipment extends Mage_Core_Block_Template

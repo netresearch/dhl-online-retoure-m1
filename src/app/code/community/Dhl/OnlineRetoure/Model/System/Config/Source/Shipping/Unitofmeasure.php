@@ -7,7 +7,6 @@
  * Class Dhl_OnlineRetoure_Model_System_Config_Source_Shipping_Unitofmeasure
  *
  * @package Dhl_OnlineRetoure
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_Model_System_Config_Source_Shipping_Unitofmeasure

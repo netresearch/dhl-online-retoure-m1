@@ -7,8 +7,6 @@
  * Dhl OnlineRetoure create return shipment controller.
  *
  * @package Dhl_OnlineRetoure
- * @author  André Herrn <andre.herrn@netresearch.de>
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
 class Dhl_OnlineRetoure_CreateController extends Dhl_OnlineRetoure_Controller_Abstract
