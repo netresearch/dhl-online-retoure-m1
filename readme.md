@@ -6,10 +6,10 @@ shipping labels for their orders.
 
 Facts
 -----
-- version: 2.0.0
+- version: 2.1.0
 - extension key: Dhl_OnlineRetoure
 - [extension on GitLab](https://git.netresearch.de/dhl/online-retoure-m1)
-- [direct download link](https://git.netresearch.de/dhl/online-retoure-m1/repository/2.0.0/archive.tar.gz)
+- [direct download link](https://git.netresearch.de/dhl/online-retoure-m1/repository/2.1.0/archive.tar.gz)
 
 Description
 -----------
@@ -68,5 +68,5 @@ Licence
 
 Copyright
 ---------
-(c) 2013 Netresearch GmbH & Co. KG
-(c) 2016 DHL Paket GmbH
+(c) 2020 Netresearch GmbH & Co. KG
+(c) 2020 DHL Paket GmbH
