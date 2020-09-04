@@ -163,8 +163,8 @@ class Dhl_OnlineRetoure_Model_Rest_RequestBuilder
 
         /** optional simpleAddress params */
         $simpleAddress->country = $countryObj;
-        $simpleAddress->name2 = $shippingAddress->getStreet2();
-        $simpleAddress->name3 = $shippingAddress->getStreet3();
+        $simpleAddress->name2 = (string) $shippingAddress->getCompany();
+        $simpleAddress->name3 = isset($splitStreet['care_of']) ? $splitStreet['care_of'] : '';
 
         $customsDocument = null;
         if (!$this->config->isEuCountry($shippingAddress->getCountryId())) {
