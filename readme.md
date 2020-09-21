@@ -6,10 +6,10 @@ shipping labels for their orders.
 
 Facts
 -----
-- version: 2.1.0
+- version: 2.1.1
 - extension key: Dhl_OnlineRetoure
 - [extension on GitLab](https://git.netresearch.de/dhl/online-retoure-m1)
-- [direct download link](https://git.netresearch.de/dhl/online-retoure-m1/repository/2.1.0/archive.tar.gz)
+- [direct download link](https://git.netresearch.de/dhl/online-retoure-m1/repository/2.1.1/archive.tar.gz)
 
 Description
 -----------
